@@ -1,14 +1,22 @@
 import Head from 'next/head';
 import { useDispatch } from 'react-redux';
 import { handleOnChangeTheme } from '../redux/themeSlice';
-import Theme from '../components/Layout';
 import Button from '@mui/material/Button';
+import { useEffect } from 'react';
+import router from 'next/router';
+import { auth } from './_app';
 
 export default function Home() {
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    if (!auth.currentUser?.emailVerified) {
+      router.push('/sign-in');
+    }
+  }, []);
+
   return (
-    <Theme>
+    <div>
       <Head>
         <title>Tv Maze App</title>
         <meta name='description' content='Tv Maze App' />
@@ -22,6 +30,6 @@ export default function Home() {
           change theme
         </Button>
       </main>
-    </Theme>
+    </div>
   );
 }
