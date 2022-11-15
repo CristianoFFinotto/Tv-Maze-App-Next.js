@@ -1,7 +1,7 @@
 import { Provider } from 'react-redux';
 import { store } from '../redux/store';
 import { initializeApp } from 'firebase/app';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { getAuth } from 'firebase/auth';
 import Theme from '../components/Theme';
 
 const firebaseConfig = {
@@ -15,14 +15,6 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
-
-/* signInWithEmailAndPassword(auth, 'manganaruto715@gmail.com', 'lezzo12')
-  .then((userCredential) => {
-    console.log(userCredential.user);
-  })
-  .catch((error) => {
-    console.log(error);
-  }); */
 
 const App = ({ Component, pageProps }: any) => {
   return (

@@ -1,35 +1,31 @@
-import Head from 'next/head';
+import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { handleOnChangeTheme } from '../redux/themeSlice';
 import Button from '@mui/material/Button';
-import { useEffect } from 'react';
-import router from 'next/router';
+import { useRouter } from 'next/router';
 import { auth } from './_app';
+import Loading from '../components/Loading';
+import Header from '../components/Header';
 
 export default function Home() {
   const dispatch = useDispatch();
+  const router = useRouter();
 
   useEffect(() => {
-    if (!auth.currentUser?.emailVerified) {
-      router.push('/sign-in');
-    }
+    if (!auth.currentUser?.emailVerified) router.push('/sign-in');
   }, []);
 
+  if (!auth.currentUser?.emailVerified) return <Loading />;
+
   return (
-    <div>
-      <Head>
-        <title>Tv Maze App</title>
-        <meta name='description' content='Tv Maze App' />
-        <meta name='author' content='Cristiano Francesco Finotto' />
-        <meta name='viewport' content='initial-scale=1.0, width=device-width' />
-        <link rel='icon' href='/favicon.ico' />
-      </Head>
+    <>
+      <Header title={'Tv Maze App'} description={'Tv Maze App'} />
 
       <main>
         <Button variant='text' onClick={() => dispatch(handleOnChangeTheme())}>
           change theme
         </Button>
       </main>
-    </div>
+    </>
   );
 }
