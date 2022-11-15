@@ -29,7 +29,7 @@ const SignIn = () => {
         if (res.user.emailVerified) router.push('/');
         else {
           const actionCodeSettings = {
-            url: 'http://localhost:3000/sign-in',
+            url: 'http://localhost:3000/signIn',
             handleCodeInApp: false,
           };
           await sendEmailVerification(res.user, actionCodeSettings)
@@ -48,11 +48,16 @@ const SignIn = () => {
           error.message === 'Firebase: Error (auth/user-not-found).'
             ? 'email not found!'
             : error.message === 'Firebase: Error (auth/wrong-password).'
-            ? 'wrong password!'
+            ? 'password wrong!'
             : 'internal error!',
         );
         setAlertState(true);
       });
+  };
+
+  const handleOnResetClick = (e: Event) => {
+    e.preventDefault();
+    router.push('/resetPassword');
   };
 
   return (
@@ -68,15 +73,21 @@ const SignIn = () => {
         <Grid item xs={12} marginTop={'24vh'} display={'flex'} justifyContent={'center'}>
           <Form
             onSubmit={onSubmit}
+            hasPasswordInput={true}
             errors={SignInError}
             alertState={alertState}
             setAlertState={setAlertState}
             verificationEmailSent={verificationEmailSent}
           />
         </Grid>
-        <Grid item xs={12} marginTop={'2vh'} textAlign={'center'}>
+        <Grid item xs={12} textAlign={'center'}>
           or
-          <Link href={'/sign-up'}>
+        </Grid>
+        <Grid item xs={12} textAlign={'center'}>
+          <a href=''>
+            <MyButton handleOnClick={handleOnResetClick}>Reset password</MyButton>
+          </a>
+          <Link href={'/signUp'}>
             <MyButton>Sign Up</MyButton>
           </Link>
         </Grid>

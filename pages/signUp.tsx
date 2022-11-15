@@ -24,7 +24,7 @@ const SignUp = () => {
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     const actionCodeSettings = {
-      url: 'http://localhost:3000/sign-in',
+      url: 'http://localhost:3000/signIn',
       handleCodeInApp: false,
     };
 
@@ -63,6 +63,7 @@ const SignUp = () => {
         <Grid item xs={12} marginTop={'24vh'} display={'flex'} justifyContent={'center'}>
           <Form
             onSubmit={onSubmit}
+            hasPasswordInput={true}
             alertState={alertState}
             setAlertState={setAlertState}
             errors={signUpError}

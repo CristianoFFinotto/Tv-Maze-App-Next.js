@@ -16,6 +16,7 @@ export type Inputs = {
 
 type propsType = {
   onSubmit: SubmitHandler<Inputs>;
+  hasPasswordInput: boolean;
   alertState: boolean;
   setAlertState: Dispatch<SetStateAction<boolean>>;
   errors?: string /* Errors during sign in or sign up */;
@@ -33,17 +34,8 @@ const Form = (props: propsType) => {
     let errorText = '';
 
     if (field?.type === 'required') errorText = 'field required!';
+    else if (type === 'email' && field?.type === 'pattern') errorText = 'email NOT valid!';
 
-    if (type === 'email' && field?.type === 'pattern') errorText = 'email NOT valid!';
-
-    if (type === 'password' && field?.type === 'pattern')
-      errorText = `password need to contain at least: 
-      one lowercase letter
-      one uppercase letter
-      one digit
-      one special character
-      eight characters long
-      `;
     return errorText;
   };
 
@@ -69,22 +61,24 @@ const Form = (props: propsType) => {
           pattern: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
         })}
       />
-      <TextField
-        sx={{ mb: 2 }}
-        label='password'
-        type={'password'}
-        error={!!errors.password}
-        helperText={catchErrorsValidation(errors.password, 'password')}
-        {...register('password', {
-          required: true,
-          pattern: /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})/,
-        })}
-      />
+      {props.hasPasswordInput ? (
+        <TextField
+          sx={{ mb: 2 }}
+          label='password'
+          type={'password'}
+          error={!!errors.password}
+          helperText={catchErrorsValidation(errors.password, 'password')}
+          {...register('password', {
+            required: true,
+          })}
+        />
+      ) : undefined}
+
       <MyButton variant='contained' margin='20px 0' type={'submit'}>
         Submit
       </MyButton>
       {props.verificationEmailSent ? (
-        <Collapse in={props.alertState} sx={{ position: 'absolute', bottom: '4vh' }}>
+        <Collapse in={props.alertState} sx={{ position: 'absolute', bottom: '0' }}>
           <Alert
             severity='info'
             action={
@@ -106,7 +100,7 @@ const Form = (props: propsType) => {
         </Collapse>
       ) : undefined}
       {props.errors ? (
-        <Collapse in={props.alertState} sx={{ position: 'absolute', bottom: '4vh' }}>
+        <Collapse in={props.alertState} sx={{ position: 'absolute', bottom: '0' }}>
           <Alert
             severity='error'
             action={

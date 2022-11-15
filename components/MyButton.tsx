@@ -5,7 +5,7 @@ type PropsType = {
   margin?: string;
   type?: any;
   children: string;
-  handleOnClick?: () => void;
+  handleOnClick?: any;
 };
 
 const MyButton = (props: PropsType) => {
