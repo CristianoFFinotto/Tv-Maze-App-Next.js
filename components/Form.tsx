@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import { useForm, SubmitHandler, FieldError } from 'react-hook-form';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
@@ -8,7 +8,8 @@ import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import MyButton from './MyButton';
-import { List, ListItem } from '@mui/material';
+import { InputAdornment, List, ListItem } from '@mui/material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 export type Inputs = {
   email: string;
@@ -25,6 +26,7 @@ type propsType = {
 };
 
 const Form = (props: propsType) => {
+  const [toggleShowPassword, setToggleShowPassword] = useState<boolean>(false);
   const {
     register,
     handleSubmit,
@@ -66,8 +68,21 @@ const Form = (props: propsType) => {
         <TextField
           sx={{ mb: 2 }}
           label='password'
-          type={'password'}
+          type={toggleShowPassword ? 'text' : 'password'}
           error={!!errors.password}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position='end'>
+                <IconButton
+                  aria-label='toggle password visibility'
+                  onClick={() => setToggleShowPassword(!toggleShowPassword)}
+                  edge='end'
+                >
+                  {toggleShowPassword ? <Visibility /> : <VisibilityOff />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
           helperText={catchErrorsValidation(errors.password, 'password')}
           {...register('password', {
             required: true,
