@@ -8,6 +8,7 @@ import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import MyButton from './MyButton';
+import { List, ListItem } from '@mui/material';
 
 export type Inputs = {
   email: string;
@@ -77,49 +78,56 @@ const Form = (props: propsType) => {
       <MyButton variant='contained' margin='20px 0' type={'submit'}>
         Submit
       </MyButton>
-      {props.verificationEmailSent ? (
-        <Collapse in={props.alertState} sx={{ position: 'absolute', bottom: '0' }}>
-          <Alert
-            severity='info'
-            action={
-              <IconButton
-                aria-label='close'
-                color='inherit'
-                size='small'
-                onClick={() => {
-                  props.setAlertState(false);
-                }}
+      <List sx={{ position: 'absolute', bottom: '0' }}>
+        <ListItem sx={{ display: 'flex', justifyContent: 'center' }}>
+          {props.verificationEmailSent ? (
+            <Collapse in={props.alertState}>
+              <Alert
+                severity='info'
+                action={
+                  <IconButton
+                    aria-label='close'
+                    color='inherit'
+                    size='small'
+                    onClick={() => {
+                      props.setAlertState(false);
+                    }}
+                  >
+                    <CloseIcon fontSize='inherit' />
+                  </IconButton>
+                }
               >
-                <CloseIcon fontSize='inherit' />
-              </IconButton>
-            }
-          >
-            <AlertTitle>Verification Email</AlertTitle>
-            <strong>Verification link is send to your email!</strong>
-          </Alert>
-        </Collapse>
-      ) : undefined}
-      {props.errors ? (
-        <Collapse in={props.alertState} sx={{ position: 'absolute', bottom: '0' }}>
-          <Alert
-            severity='error'
-            action={
-              <IconButton
-                aria-label='close'
-                size='small'
-                onClick={() => {
-                  props.setAlertState(false);
-                }}
+                <AlertTitle>Info</AlertTitle>
+                <strong>Verification link is send to your email!</strong>
+              </Alert>
+            </Collapse>
+          ) : undefined}
+        </ListItem>
+
+        <ListItem sx={{ display: 'flex', justifyContent: 'center' }}>
+          {props.errors ? (
+            <Collapse in={props.alertState}>
+              <Alert
+                severity='error'
+                action={
+                  <IconButton
+                    aria-label='close'
+                    size='small'
+                    onClick={() => {
+                      props.setAlertState(false);
+                    }}
+                  >
+                    <CloseIcon />
+                  </IconButton>
+                }
               >
-                <CloseIcon />
-              </IconButton>
-            }
-          >
-            <AlertTitle>Error</AlertTitle>
-            <strong>{props.errors}</strong>
-          </Alert>
-        </Collapse>
-      ) : undefined}
+                <AlertTitle>Error</AlertTitle>
+                <strong>{props.errors}</strong>
+              </Alert>
+            </Collapse>
+          ) : undefined}
+        </ListItem>
+      </List>
     </Box>
   );
 };

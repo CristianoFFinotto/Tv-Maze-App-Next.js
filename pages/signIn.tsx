@@ -37,20 +37,14 @@ const SignIn = () => {
               setVerificationEmailSent(true);
               setAlertState(true);
             })
-            .catch(() => {
-              setSignInError('error during sending email verification!');
+            .catch((error: Error) => {
+              setSignInError(error.message.slice(10));
               setAlertState(true);
             });
         }
       })
       .catch((error: Error) => {
-        setSignInError(
-          error.message === 'Firebase: Error (auth/user-not-found).'
-            ? 'email not found!'
-            : error.message === 'Firebase: Error (auth/wrong-password).'
-            ? 'password wrong!'
-            : 'internal error!',
-        );
+        setSignInError(error.message.slice(10));
         setAlertState(true);
       });
   };

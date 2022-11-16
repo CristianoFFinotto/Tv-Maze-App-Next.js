@@ -35,17 +35,13 @@ const SignUp = () => {
             setVerificationEmailSent(true);
             setAlertState(true);
           })
-          .catch(() => {
-            setSignUpError('error during sending email verification!');
+          .catch((error: Error) => {
+            setSignUpError(error.message.slice(10));
             setAlertState(true);
           });
       })
       .catch((error: Error) => {
-        setSignUpError(
-          error.message === 'Firebase: Error (auth/email-already-in-use).'
-            ? 'email already exists'
-            : 'internal error!',
-        );
+        setSignUpError(error.message.slice(10));
         setAlertState(true);
       });
   };

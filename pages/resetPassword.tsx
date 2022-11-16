@@ -19,13 +19,7 @@ const ResetPassword = () => {
 
     sendPasswordResetEmail(auth, data.email, actionCodeSettings)
       .then(() => setVerificationEmailSent(true))
-      .catch((error: Error) =>
-        setResetPasswordError(
-          error.message === 'Firebase: Error (auth/user-not-found).'
-            ? 'email not found!'
-            : 'internal error!',
-        ),
-      );
+      .catch((error: Error) => setResetPasswordError(error.message.slice(10)));
   };
   return (
     <>
