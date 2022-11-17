@@ -54,7 +54,7 @@ const Form = (props: propsType) => {
       maxWidth={'220px'}
     >
       <TextField
-        sx={{ mb: 2 }}
+        sx={{ mb: 2, width: 220 }}
         label='email'
         type={'email'}
         error={!!errors.email}
@@ -66,7 +66,7 @@ const Form = (props: propsType) => {
       />
       {props.hasPasswordInput ? (
         <TextField
-          sx={{ mb: 2 }}
+          sx={{ mb: 2, width: 220 }}
           label='password'
           type={toggleShowPassword ? 'text' : 'password'}
           error={!!errors.password}

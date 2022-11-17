@@ -26,6 +26,7 @@ import { RootState } from '../redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { handleOnChangeTheme } from '../redux/themeSlice';
 import { auth } from '../pages/_app';
+import MyButton from './MyButton';
 
 const navItems = ['Home', 'Favourites'];
 const drawerWidth = 240;
@@ -148,6 +149,16 @@ const MyAppBar = (props: PropsType) => {
                 {item}
               </Button>
             ))}
+            <MyButton
+              style={{ color: '#fff' }}
+              handleOnClick={() =>
+                signOut(auth)
+                  .then(() => router.push('/signIn'))
+                  .catch((error: Error) => console.error(error.message))
+              }
+            >
+              Sign out
+            </MyButton>
             <IconButton onClick={() => dispatch(handleOnChangeTheme())} color='inherit'>
               {theme === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
             </IconButton>

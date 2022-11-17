@@ -3,6 +3,8 @@ import { store } from '../redux/store';
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import Theme from '../components/Theme';
+import ErrorBoundary from '../components/ErrorBoundary';
+import Auth from '../components/Auth';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyAY_kBZ9Dbaux2HdNqa9SElZUl_3R5pv20',
@@ -20,7 +22,10 @@ const App = ({ Component, pageProps }: any) => {
   return (
     <Provider store={store}>
       <Theme>
-        <Component {...pageProps} />
+        <ErrorBoundary>
+          <Auth />
+          <Component {...pageProps} />
+        </ErrorBoundary>
       </Theme>
     </Provider>
   );
