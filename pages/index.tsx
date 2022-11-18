@@ -1,6 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Image from 'next/image';
-import { auth } from './_app';
 import Loading from '../components/Loading';
 import Header from '../components/Header';
 import MyAppBar from '../components/MyAppBar';

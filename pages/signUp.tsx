@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
+import { useState } from 'react';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { SubmitHandler } from 'react-hook-form';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
@@ -13,18 +13,12 @@ import { RootState } from '../redux/store';
 
 const SignUp = () => {
   const [signUpError, setSignUpError] = useState<string>('');
-  const [alertState, setAlertState] = useState(true);
   const authCurrentStatus = useSelector((state: RootState) => state.authCurrentStatus.value);
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    createUserWithEmailAndPassword(auth, data.email, data.password)
-      .then(async (res) => {
-        console.log('user created');
-      })
-      .catch((error: Error) => {
-        setSignUpError(error.message.slice(10));
-        setAlertState(true);
-      });
+    createUserWithEmailAndPassword(auth, data.email, data.password).catch((error: Error) =>
+      setSignUpError(error.message.slice(10)),
+    );
   };
 
   return (
@@ -40,13 +34,7 @@ const SignUp = () => {
               </Typography>
             </Grid>
             <Grid item xs={12} marginTop={'24vh'} display={'flex'} justifyContent={'center'}>
-              <Form
-                onSubmit={onSubmit}
-                hasPasswordInput={true}
-                alertState={alertState}
-                setAlertState={setAlertState}
-                errors={signUpError}
-              />
+              <Form onSubmit={onSubmit} hasPasswordInput={true} errors={signUpError} />
             </Grid>
           </Grid>
         </>

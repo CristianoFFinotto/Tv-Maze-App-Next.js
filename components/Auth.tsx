@@ -14,25 +14,24 @@ const Auth = () => {
       console.log(user);
       if (user) {
         if (user?.emailVerified) {
-          console.log('spostami 1');
-          console.log(window.location.pathname);
-          if (router.pathname !== '/') {
-            console.log('spostami 2');
-            router.replace('/');
+          if (window.location.pathname !== '/') {
+            router.push('/');
           }
           dispatch(handleOnChangeCurrentAuth(true));
         } else {
+          if (window.location.pathname !== '/emailVerification') {
+            router.push('/emailVerification');
+          }
           const actionCodeSettings = {
-            url: 'http://localhost:3000/signIn',
+            url: 'http://localhost:3000',
             handleCodeInApp: false,
           };
-          sendEmailVerification(user, actionCodeSettings)
-            .then(() => console.log('email sent'))
-            .catch((error: Error) => console.log(error.message));
-          router.replace('/emailVerification');
+          sendEmailVerification(user, actionCodeSettings).catch((error: Error) =>
+            console.error(error.message),
+          );
         }
       } else {
-        router.replace('/signIn');
+        router.push('/signIn');
         dispatch(handleOnChangeCurrentAuth(false));
       }
     });

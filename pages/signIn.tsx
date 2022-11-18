@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { sendEmailVerification, signInWithEmailAndPassword } from 'firebase/auth';
@@ -14,17 +14,14 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 
 const SignIn = () => {
-  const [alertState, setAlertState] = useState(true);
   const [SignInError, setSignInError] = useState<string>('');
-  const [verificationEmailSent, setVerificationEmailSent] = useState<boolean>(false);
   const authCurrentStatus = useSelector((state: RootState) => state.authCurrentStatus.value);
   const router = useRouter();
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
-    signInWithEmailAndPassword(auth, data.email, data.password).catch((error: Error) => {
-      setSignInError(error.message.slice(10));
-      setAlertState(true);
-    });
+    signInWithEmailAndPassword(auth, data.email, data.password).catch((error: Error) =>
+      setSignInError(error.message.slice(10)),
+    );
   };
 
   const handleOnResetClick = (e: Event) => {
@@ -45,14 +42,7 @@ const SignIn = () => {
               </Typography>
             </Grid>
             <Grid item xs={12} marginTop={'24vh'} display={'flex'} justifyContent={'center'}>
-              <Form
-                onSubmit={onSubmit}
-                hasPasswordInput={true}
-                errors={SignInError}
-                alertState={alertState}
-                setAlertState={setAlertState}
-                verificationEmailSent={verificationEmailSent}
-              />
+              <Form onSubmit={onSubmit} hasPasswordInput={true} errors={SignInError} />
             </Grid>
             <Grid item xs={12} textAlign={'center'}>
               or

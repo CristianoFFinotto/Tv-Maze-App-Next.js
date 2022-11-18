@@ -101,11 +101,7 @@ const MyAppBar = (props: PropsType) => {
         <ListItem disablePadding>
           <ListItemButton
             sx={{ textAlign: 'center' }}
-            onClick={() =>
-              signOut(auth)
-                .then(() => router.push('/signIn'))
-                .catch((error: Error) => console.error(error.message))
-            }
+            onClick={() => signOut(auth).catch((error: Error) => console.error(error.message))}
           >
             <ListItemText primary={'sign out'} />
           </ListItemButton>
@@ -152,9 +148,7 @@ const MyAppBar = (props: PropsType) => {
             <MyButton
               style={{ color: '#fff' }}
               handleOnClick={() =>
-                signOut(auth)
-                  .then(() => router.push('/signIn'))
-                  .catch((error: Error) => console.error(error.message))
+                signOut(auth).catch((error: Error) => console.error(error.message))
               }
             >
               Sign out
