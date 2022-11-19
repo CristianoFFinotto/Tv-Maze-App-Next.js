@@ -1,4 +1,4 @@
-import Button, { ButtonClasses } from '@mui/material/Button';
+import Button from '@mui/material/Button';
 
 type PropsType = {
   variant?: 'text' | 'contained' | 'outlined';

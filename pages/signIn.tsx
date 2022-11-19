@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import { sendEmailVerification, signInWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 import { SubmitHandler } from 'react-hook-form';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
@@ -24,8 +24,7 @@ const SignIn = () => {
     );
   };
 
-  const handleOnResetClick = (e: Event) => {
-    e.preventDefault();
+  const handleOnResetClick = () => {
     router.replace('/resetPassword');
   };
 
@@ -48,9 +47,10 @@ const SignIn = () => {
           or
         </Grid>
         <Grid item xs={12} textAlign={'center'}>
-          <a href=''>
-            <MyButton handleOnClick={handleOnResetClick}>Reset password</MyButton>
-          </a>
+          <span style={{ textDecoration: 'underline' }}>
+            <MyButton handleOnClick={() => handleOnResetClick()}>Reset password</MyButton>
+          </span>
+
           <Link href={'/signUp'}>
             <MyButton>Sign Up</MyButton>
           </Link>

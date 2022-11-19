@@ -1,12 +1,10 @@
-import { Dispatch, SetStateAction, useState } from 'react';
+import { useState } from 'react';
 import { useForm, SubmitHandler, FieldError } from 'react-hook-form';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
-import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
 import MyButton from './MyButton';
 import { InputAdornment } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';

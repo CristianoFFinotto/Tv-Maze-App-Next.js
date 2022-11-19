@@ -3,8 +3,9 @@ import Image from 'next/image';
 import Loading from '../components/Loading';
 import Header from '../components/Header';
 import MyAppBar from '../components/MyAppBar';
-import { Media, MediaApi } from '../Api/api';
+import { Media, searchByName } from '../Api/api';
 import {
+  Box,
   Button,
   Card,
   CardActionArea,
@@ -19,26 +20,14 @@ import { RootState } from '../redux/store';
 
 export default function Home() {
   const [medias, setMedias] = useState<Media[]>([]);
+  const [currentSearch, setCurrentSearch] = useState<string>('');
   const authCurrentStatus = useSelector((state: RootState) => state.authCurrentStatus.value);
 
   const handleOnSearch = (search: string) => {
     if (search) {
-      fetch(`https://api.tvmaze.com/search/shows?q=${search}`)
-        .then((res) => res.json())
-        .then((data: MediaApi) => {
-          const payload = data.map((item) => {
-            return {
-              id: item.show?.id || '',
-              name: item.show?.name || '',
-              genres: item.show?.genres || '',
-              image: item.show?.image?.original || '',
-              summary: item.show?.summary || '',
-              rating: item.show?.rating?.average || '',
-            };
-          });
-          setMedias(payload);
-        })
-        .catch((error: Error) => console.error(error.message));
+      searchByName(search)
+        .then((data) => setMedias(data))
+        .catch((err: Error) => console.error(err.message));
     }
   };
 
@@ -47,8 +36,8 @@ export default function Home() {
   return (
     <>
       <Header title={'Tv Maze App'} description={'Tv Maze App'} />
-      <MyAppBar handleOnSearch={handleOnSearch} />
-      {medias.length > 0 ? (
+      <MyAppBar handleOnSearch={handleOnSearch} setCurrentSearch={setCurrentSearch} />
+      {medias.length > 0 && currentSearch ? (
         <Grid container spacing={2} marginTop={'64px'} padding={'10px 40px 20px 40px'}>
           {medias.map((item, index) => (
             <Grid
@@ -88,7 +77,17 @@ export default function Home() {
             </Grid>
           ))}
         </Grid>
-      ) : undefined}
+      ) : (
+        <Box height={'100vh'} textAlign={'center'} display={'flex'} alignItems={'center'}>
+          <Grid container spacing={'2vh'}>
+            <Grid item xs={12}>
+              <Typography variant='h5' textAlign={'center'}>
+                Search a film or tv show
+              </Typography>
+            </Grid>
+          </Grid>
+        </Box>
+      )}
     </>
   );
 }

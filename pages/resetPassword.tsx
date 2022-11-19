@@ -5,9 +5,13 @@ import { SubmitHandler } from 'react-hook-form';
 import Form, { Inputs } from '../components/Form';
 import Header from '../components/Header';
 import { auth } from './_app';
+import { useSelector } from 'react-redux';
+import Loading from '../components/Loading';
+import { RootState } from '../redux/store';
 
 const ResetPassword = () => {
   const [resetPasswordError, setResetPasswordError] = useState<string>('');
+  const authCurrentStatus = useSelector((state: RootState) => state.authCurrentStatus.value);
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     const actionCodeSettings = {
@@ -19,6 +23,9 @@ const ResetPassword = () => {
       setResetPasswordError(error.message.slice(10)),
     );
   };
+
+  if (authCurrentStatus) return <Loading />;
+
   return (
     <>
       <Header title={'Tv Maze App - Password reset'} description={'Tv Maze App - Password reset'} />

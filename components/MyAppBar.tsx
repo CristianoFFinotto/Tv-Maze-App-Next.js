@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import { signOut } from 'firebase/auth';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -72,6 +72,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 type PropsType = {
   handleOnSearch: (search: string) => void;
+  setCurrentSearch: Dispatch<SetStateAction<string>>;
 };
 
 const MyAppBar = (props: PropsType) => {
@@ -157,7 +158,12 @@ const MyAppBar = (props: PropsType) => {
               {theme === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
             </IconButton>
           </Box>
-          <Search onChange={(e: any) => props.handleOnSearch(e.target.value)}>
+          <Search
+            onChange={(e: any) => {
+              props.handleOnSearch(e.target.value);
+              props.setCurrentSearch(e.target.value);
+            }}
+          >
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
