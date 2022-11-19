@@ -26,40 +26,36 @@ const SignIn = () => {
 
   const handleOnResetClick = (e: Event) => {
     e.preventDefault();
-    router.push('/resetPassword');
+    router.replace('/resetPassword');
   };
+
+  if (authCurrentStatus) return <Loading />;
 
   return (
     <>
-      {!authCurrentStatus ? (
-        <>
-          <Header title={'Tv Maze App - Sign in'} description={'Tv Maze App - Sign in'} />
+      <Header title={'Tv Maze App - Sign in'} description={'Tv Maze App - Sign in'} />
 
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <Typography variant='h3' gutterBottom textAlign={'center'} marginTop={'3vh'}>
-                Sign in
-              </Typography>
-            </Grid>
-            <Grid item xs={12} marginTop={'24vh'} display={'flex'} justifyContent={'center'}>
-              <Form onSubmit={onSubmit} hasPasswordInput={true} errors={SignInError} />
-            </Grid>
-            <Grid item xs={12} textAlign={'center'}>
-              or
-            </Grid>
-            <Grid item xs={12} textAlign={'center'}>
-              <a href=''>
-                <MyButton handleOnClick={handleOnResetClick}>Reset password</MyButton>
-              </a>
-              <Link href={'/signUp'}>
-                <MyButton>Sign Up</MyButton>
-              </Link>
-            </Grid>
-          </Grid>
-        </>
-      ) : (
-        <Loading />
-      )}
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <Typography variant='h3' gutterBottom textAlign={'center'} marginTop={'3vh'}>
+            Sign in
+          </Typography>
+        </Grid>
+        <Grid item xs={12} marginTop={'24vh'} display={'flex'} justifyContent={'center'}>
+          <Form onSubmit={onSubmit} hasPasswordInput={true} errors={SignInError} />
+        </Grid>
+        <Grid item xs={12} textAlign={'center'}>
+          or
+        </Grid>
+        <Grid item xs={12} textAlign={'center'}>
+          <a href=''>
+            <MyButton handleOnClick={handleOnResetClick}>Reset password</MyButton>
+          </a>
+          <Link href={'/signUp'}>
+            <MyButton>Sign Up</MyButton>
+          </Link>
+        </Grid>
+      </Grid>
     </>
   );
 };

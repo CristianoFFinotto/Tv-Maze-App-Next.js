@@ -8,7 +8,7 @@ const initialState: CurrentAuthStatusType = {
   value: false,
 };
 
-export const authCurrentStatusSlice = createSlice({
+export const currentStatusSlice = createSlice({
   name: 'currentAuthStatus',
   initialState,
   reducers: {
@@ -18,6 +18,6 @@ export const authCurrentStatusSlice = createSlice({
   },
 });
 
-export const { handleOnChangeCurrentAuth } = authCurrentStatusSlice.actions;
+export const { handleOnChangeCurrentAuth } = currentStatusSlice.actions;
 
-export default authCurrentStatusSlice.reducer;
+export default currentStatusSlice.reducer;

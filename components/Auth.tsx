@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { auth } from '../pages/_app';
-import { handleOnChangeCurrentAuth } from '../redux/authCurrentStatus';
+import { handleOnChangeCurrentAuth } from '../redux/currentStatusSlice';
 
 const Auth = () => {
   const router = useRouter();
@@ -11,16 +11,15 @@ const Auth = () => {
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
-      console.log(user);
       if (user) {
         if (user?.emailVerified) {
           if (window.location.pathname !== '/') {
-            router.push('/');
+            router.replace('/');
           }
           dispatch(handleOnChangeCurrentAuth(true));
         } else {
           if (window.location.pathname !== '/emailVerification') {
-            router.push('/emailVerification');
+            router.replace('/emailVerification');
           }
           const actionCodeSettings = {
             url: 'http://localhost:3000',
@@ -31,7 +30,7 @@ const Auth = () => {
           );
         }
       } else {
-        router.push('/signIn');
+        router.replace('/signIn');
         dispatch(handleOnChangeCurrentAuth(false));
       }
     });

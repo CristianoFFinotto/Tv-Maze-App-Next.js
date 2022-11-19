@@ -7,9 +7,7 @@ import Header from '../components/Header';
 import { auth } from './_app';
 
 const ResetPassword = () => {
-  const [alertState, setAlertState] = useState(true);
   const [resetPasswordError, setResetPasswordError] = useState<string>('');
-  const [verificationEmailSent, setVerificationEmailSent] = useState<boolean>(false);
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     const actionCodeSettings = {
@@ -17,14 +15,13 @@ const ResetPassword = () => {
       handleCodeInApp: false,
     };
 
-    sendPasswordResetEmail(auth, data.email, actionCodeSettings)
-      .then(() => setVerificationEmailSent(true))
-      .catch((error: Error) => setResetPasswordError(error.message.slice(10)));
+    sendPasswordResetEmail(auth, data.email, actionCodeSettings).catch((error: Error) =>
+      setResetPasswordError(error.message.slice(10)),
+    );
   };
   return (
     <>
       <Header title={'Tv Maze App - Password reset'} description={'Tv Maze App - Password reset'} />
-
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Typography variant='h3' gutterBottom textAlign={'center'} marginTop={'3vh'}>
@@ -32,14 +29,7 @@ const ResetPassword = () => {
           </Typography>
         </Grid>
         <Grid item xs={12} marginTop={'24vh'} display={'flex'} justifyContent={'center'}>
-          <Form
-            onSubmit={onSubmit}
-            hasPasswordInput={false}
-            alertState={alertState}
-            setAlertState={setAlertState}
-            errors={resetPasswordError}
-            verificationEmailSent={verificationEmailSent}
-          />
+          <Form onSubmit={onSubmit} hasPasswordInput={false} errors={resetPasswordError} />
         </Grid>
       </Grid>
     </>
