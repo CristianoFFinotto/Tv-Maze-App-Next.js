@@ -17,11 +17,13 @@ import {
 } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
+import { useRouter } from 'next/router';
 
 export default function Home() {
   const [medias, setMedias] = useState<Media[]>([]);
   const [currentSearch, setCurrentSearch] = useState<string>('');
   const authCurrentStatus = useSelector((state: RootState) => state.authCurrentStatus.value);
+  const router = useRouter();
 
   const handleOnSearch = (search: string) => {
     if (search) {
@@ -29,6 +31,10 @@ export default function Home() {
         .then((data) => setMedias(data))
         .catch((err: Error) => console.error(err.message));
     }
+  };
+
+  const handleOnCardClick = (id: number) => {
+    router.push(`/show/${id}`);
   };
 
   if (!authCurrentStatus) return <Loading />;
@@ -52,7 +58,7 @@ export default function Home() {
               justifyContent={'center'}
             >
               <Card sx={{ maxWidth: 345 }}>
-                <CardActionArea>
+                <CardActionArea onClick={() => handleOnCardClick(item.id)}>
                   <CardMedia sx={{ textAlign: 'center' }}>
                     <Image
                       src={item.image || '/no-image-found.jpg'}

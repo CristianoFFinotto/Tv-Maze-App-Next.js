@@ -1,8 +1,8 @@
 export type MediaApi = [
   {
-    show?: {
-      id?: number;
-      name?: string;
+    show: {
+      id: number;
+      name: string;
       genres?: string[];
       rating?: {
         average?: number;
@@ -16,7 +16,7 @@ export type MediaApi = [
 ];
 
 export type Media = {
-  id: number | string;
+  id: number;
   name: string;
   genres: string[] | string;
   image: string;
@@ -31,12 +31,12 @@ export const searchByName = async (search: string): Promise<Media[]> => {
   const data: MediaApi = await res.json();
   payload = data.map((item) => {
     return {
-      id: item.show?.id || '',
-      name: item.show?.name || '',
-      genres: item.show?.genres || '',
-      image: item.show?.image?.original || '',
-      summary: item.show?.summary || '',
-      rating: item.show?.rating?.average || '',
+      id: item.show.id,
+      name: item.show.name,
+      genres: item.show.genres || '',
+      image: item.show.image?.original || '',
+      summary: item.show.summary || '',
+      rating: item.show.rating?.average || '',
     };
   });
 

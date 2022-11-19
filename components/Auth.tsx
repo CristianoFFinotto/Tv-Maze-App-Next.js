@@ -13,7 +13,7 @@ const Auth = () => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         if (user?.emailVerified) {
-          if (window.location.pathname !== '/') {
+          if (window.location.pathname !== '/' && !window.location.pathname.includes('show')) {
             router.replace('/');
           }
           dispatch(handleOnChangeCurrentAuth(true));
