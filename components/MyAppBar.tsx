@@ -71,7 +71,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 type PropsType = {
   handleOnSearch: (search: string) => void;
-  setCurrentSearch: Dispatch<SetStateAction<string>>;
 };
 
 const MyAppBar = (props: PropsType) => {
@@ -159,7 +158,6 @@ const MyAppBar = (props: PropsType) => {
           <Search
             onChange={(e: any) => {
               props.handleOnSearch(e.target.value);
-              props.setCurrentSearch(e.target.value);
             }}
           >
             <SearchIconWrapper>
@@ -167,6 +165,7 @@ const MyAppBar = (props: PropsType) => {
             </SearchIconWrapper>
             <StyledInputBase placeholder='Search…' inputProps={{ 'aria-label': 'search' }} />
           </Search>
+          <MyButton>search</MyButton>
         </Toolbar>
       </AppBar>
       <Box component='nav'>

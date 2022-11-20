@@ -26,9 +26,12 @@ export default function Home() {
   const router = useRouter();
 
   const handleOnSearch = (search: string) => {
+    setCurrentSearch(search);
     if (search) {
       searchByName(search)
-        .then((data) => setMedias(data))
+        .then((data) => {
+          setMedias(data);
+        })
         .catch((err: Error) => console.error(err.message));
     }
   };
@@ -42,7 +45,7 @@ export default function Home() {
       {verifiedUser ? (
         <>
           <Header title={'Tv Maze App'} description={'Tv Maze App'} />
-          <MyAppBar handleOnSearch={handleOnSearch} setCurrentSearch={setCurrentSearch} />
+          <MyAppBar handleOnSearch={handleOnSearch} />
           {medias.length > 0 && currentSearch ? (
             <Grid container spacing={2} marginTop={'64px'} padding={'10px 40px 20px 40px'}>
               {medias.map((item, index) => (
