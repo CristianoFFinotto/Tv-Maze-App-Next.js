@@ -13,7 +13,7 @@ import { RootState } from '../redux/store';
 
 const SignUp = () => {
   const [signUpError, setSignUpError] = useState<string>('');
-  const authCurrentStatus = useSelector((state: RootState) => state.authCurrentStatus.value);
+  const verifiedUser = useSelector((state: RootState) => state.verifiedUser.value);
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     createUserWithEmailAndPassword(auth, data.email, data.password).catch((error: Error) =>
@@ -21,22 +21,26 @@ const SignUp = () => {
     );
   };
 
-  if (authCurrentStatus) return <Loading />;
-
   return (
     <>
-      <Header title={'Tv Maze App - Sign up'} description={'Tv Maze App - Sign up'} />
+      {!verifiedUser ? (
+        <>
+          <Header title={'Tv Maze App - Sign up'} description={'Tv Maze App - Sign up'} />
 
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <Typography variant='h3' gutterBottom textAlign={'center'} marginTop={'3vh'}>
-            Sign up
-          </Typography>
-        </Grid>
-        <Grid item xs={12} marginTop={'24vh'} display={'flex'} justifyContent={'center'}>
-          <Form onSubmit={onSubmit} hasPasswordInput={true} errors={signUpError} />
-        </Grid>
-      </Grid>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <Typography variant='h3' gutterBottom textAlign={'center'} marginTop={'3vh'}>
+                Sign up
+              </Typography>
+            </Grid>
+            <Grid item xs={12} marginTop={'24vh'} display={'flex'} justifyContent={'center'}>
+              <Form onSubmit={onSubmit} hasPasswordInput={true} errors={signUpError} />
+            </Grid>
+          </Grid>
+        </>
+      ) : (
+        <Loading />
+      )}
     </>
   );
 };

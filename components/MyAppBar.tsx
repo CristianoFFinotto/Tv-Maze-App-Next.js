@@ -21,7 +21,6 @@ import {
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import SearchIcon from '@mui/icons-material/Search';
-import { useRouter } from 'next/router';
 import { RootState } from '../redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { handleOnChangeTheme } from '../redux/themeSlice';
@@ -79,7 +78,6 @@ const MyAppBar = (props: PropsType) => {
   const theme = useSelector((state: RootState) => state.theme.value);
   const dispatch = useDispatch();
   const [mobileOpen, setMobileOpen] = useState<boolean>(false);
-  const router = useRouter();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);

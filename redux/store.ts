@@ -1,11 +1,11 @@
-import currentStatusSliceReducer from './currentStatusSlice';
+import verifiedUserReducer from './verifiedUserSlice';
 import { configureStore } from '@reduxjs/toolkit';
 import themeSliceReducer from './themeSlice';
 
 export const store = configureStore({
   reducer: {
     theme: themeSliceReducer,
-    authCurrentStatus: currentStatusSliceReducer,
+    verifiedUser: verifiedUserReducer,
   },
 });
 
