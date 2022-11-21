@@ -6,19 +6,23 @@ import MyAppBar from '../components/MyAppBar';
 import { Media, searchByName } from '../Api/api';
 import {
   Box,
-  Button,
   Card,
   CardActionArea,
   CardActions,
   CardContent,
   CardMedia,
   Grid,
+  IconButton,
   Typography,
 } from '@mui/material';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import { useRouter } from 'next/router';
 import { handleOnChangeCurrentSearch } from '../redux/currentSearchSlice';
+import { ref, set, push, child, update } from 'firebase/database';
+import { auth, database } from './_app';
 
 export default function Home() {
   const [medias, setMedias] = useState<Media[]>([]);
@@ -35,8 +39,8 @@ export default function Home() {
   const handleOnSearch = (search: string) => {
     dispatch(handleOnChangeCurrentSearch(search));
 
-    if (currentSearch) {
-      searchByName(currentSearch)
+    if (search) {
+      searchByName(search)
         .then((data) => {
           setMedias(data);
         })
@@ -46,6 +50,11 @@ export default function Home() {
 
   const handleOnCardClick = (id: number) => {
     router.push(`/show/${id}`);
+  };
+
+  const handleOnFavouriteClick = (id: number) => {
+    let key = push(ref(database, `users/${auth.currentUser?.uid}/favourites`), { id: id }).key;
+    update();
   };
 
   return (
@@ -85,10 +94,17 @@ export default function Home() {
                         </Typography>
                       </CardContent>
                     </CardActionArea>
-                    <CardActions>
-                      <Button size='medium' color='primary'>
-                        Share
-                      </Button>
+                    <CardActions sx={{ display: 'felx', justifyContent: 'end' }}>
+                      <IconButton
+                        aria-label='toggle password visibility'
+                        onClick={() => handleOnFavouriteClick(item.id)}
+                      >
+                        {0 ? (
+                          <FavoriteIcon sx={{ color: '#E0144C' }} />
+                        ) : (
+                          <FavoriteBorderIcon sx={{ color: '#E0144C' }} />
+                        )}
+                      </IconButton>
                     </CardActions>
                   </Card>
                 </Grid>

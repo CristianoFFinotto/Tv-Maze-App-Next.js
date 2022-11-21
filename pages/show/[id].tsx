@@ -1,14 +1,14 @@
-import { Grid, Paper, Typography } from '@mui/material';
+import { Grid, List, ListItem, Paper, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Media, searchById } from '../../Api/api';
+import { MediaDetail, searchById } from '../../Api/api';
 import Loading from '../../components/Loading';
 import { RootState } from '../../redux/store';
 import Image from 'next/image';
 
 const DetailPage = () => {
-  const [media, setMedia] = useState<Media>();
+  const [media, setMedia] = useState<MediaDetail>();
   const verifiedUser = useSelector((state: RootState) => state.verifiedUser.value);
 
   useEffect(() => {
@@ -26,60 +26,67 @@ const DetailPage = () => {
       {verifiedUser ? (
         <>
           {media ? (
-            <Grid container>
-              <Grid item xs={12} md={6} textAlign={'center'} marginTop={'2vh'}>
-                <Image
-                  src={media.image}
-                  width={300}
-                  height={300}
-                  alt={media.name}
-                  style={{ borderRadius: '10px' }}
-                />
-              </Grid>
+            <Box display={{ md: 'flex' }} alignItems={{ md: 'center' }} height={{ md: '100vh' }}>
+              <Grid container>
+                <Grid
+                  item
+                  xs={12}
+                  md={6}
+                  marginTop={'2vh'}
+                  display={'flex'}
+                  alignItems={'center'}
+                  justifyContent={'center'}
+                >
+                  <Image
+                    src={media.image}
+                    width={350}
+                    height={350}
+                    priority={true}
+                    alt={media.name}
+                    style={{ borderRadius: '10px' }}
+                  />
+                </Grid>
 
-              <Grid
-                item
-                xs={12}
-                md={6}
-                display={'flex'}
-                justifyContent={'center'}
-                marginTop={'2vh'}
-              >
-                <Paper elevation={10} sx={{ margin: '0 3% 3% 3%', padding: '3%' }}>
-                  <Typography
-                    variant='h6'
-                    textAlign={'justify'}
-                    width={{ sm: '50%' }}
-                    padding={{ xs: '5%', sm: '0' }}
-                  >
-                    <Typography variant='h6' fontWeight={'bold'}>
-                      Name
-                    </Typography>
-                    {media.name}
-                    <Typography variant='h6' fontWeight={'bold'}>
-                      Genres
-                    </Typography>
-                    {Array.isArray(media.genres) ? (
-                      <ul>
+                <Grid
+                  item
+                  xs={12}
+                  md={6}
+                  display={'flex'}
+                  justifyContent={'center'}
+                  marginTop={'2vh'}
+                >
+                  <Paper elevation={10} sx={{ margin: '0 3% 3% 3%', padding: '3%' }}>
+                    <Box
+                      textAlign={'justify'}
+                      width={{ sm: '50%' }}
+                      padding={{ xs: '5%', sm: '0' }}
+                    >
+                      <Typography variant='h6' fontWeight={'bold'}>
+                        Name
+                      </Typography>
+                      {media.name}
+                      <Typography variant='h6' fontWeight={'bold'}>
+                        Genres
+                      </Typography>
+
+                      <List>
                         {media.genres.map((item, key) => (
-                          <li key={key}>{item}</li>
+                          <ListItem key={key}>{item}</ListItem>
                         ))}
-                      </ul>
-                    ) : (
-                      media.genres
-                    )}
-                    <Typography variant='h6' fontWeight={'bold'}>
-                      Summay
-                    </Typography>
-                    {media.summary}
-                    <Typography variant='h6' fontWeight={'bold'}>
-                      Rating
-                    </Typography>
-                    {media.rating}
-                  </Typography>
-                </Paper>
+                      </List>
+                      <Typography variant='h6' fontWeight={'bold'}>
+                        Summay
+                      </Typography>
+                      {media.summary}
+                      <Typography variant='h6' fontWeight={'bold'}>
+                        Rating
+                      </Typography>
+                      {media.rating}
+                    </Box>
+                  </Paper>
+                </Grid>
               </Grid>
-            </Grid>
+            </Box>
           ) : (
             <Box display={'flex'} justifyContent={'center'} alignItems={'center'} height={'100vh'}>
               <strong>Only valid id params permitted!</strong>

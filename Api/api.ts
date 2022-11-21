@@ -17,10 +17,16 @@ export type MediaApi = [
   },
 ];
 
-type MediaDetail = {
+export type Media = {
   id: number;
   name: string;
-  genres?: string[];
+  image: string;
+};
+
+export type MediaDetailApi = {
+  id: number;
+  name: string;
+  genres: string[];
   rating?: {
     average?: number;
   };
@@ -30,13 +36,13 @@ type MediaDetail = {
   summary?: string;
 };
 
-export type Media = {
+export type MediaDetail = {
   id: number;
   name: string;
-  genres: string[] | string;
-  image: string;
-  summary: string;
+  genres: string[];
   rating: number | string;
+  image: string;
+  summary: string | JSX.Element | JSX.Element[];
 };
 
 export const searchByName = async (search: string): Promise<Media[]> => {
@@ -49,10 +55,7 @@ export const searchByName = async (search: string): Promise<Media[]> => {
       return {
         id: item.show.id,
         name: item.show.name,
-        genres: item.show.genres || 'no genres available',
         image: item.show.image?.original || '/no-image-found.jpg',
-        summary: item.show.summary || 'no summary available',
-        rating: item.show.rating?.average || 'no rating available',
       };
     });
     return payload;
@@ -61,21 +64,21 @@ export const searchByName = async (search: string): Promise<Media[]> => {
   }
 };
 
-export const searchById = async (id: string): Promise<Media> => {
+export const searchById = async (id: string): Promise<MediaDetail> => {
   const res = await fetch(`https://api.tvmaze.com/shows/${id}`);
 
   if (res.ok) {
-    const data: MediaDetail = await res.json();
+    const data: MediaDetailApi = await res.json();
     const payload = {
       id: data.id,
       name: data.name,
-      genres: data.genres || 'no genres available',
+      genres: data.genres.length > 0 ? data.genres : ['no genres available'],
       image: data.image?.original || '/no-image-found.jpg',
       summary: data.summary ? parse(data.summary) : 'no summary available',
       rating: data.rating?.average || 'no rating available',
     };
 
-    return payload as Media;
+    return payload;
   } else {
     throw new Error('Not 2xx response');
   }
