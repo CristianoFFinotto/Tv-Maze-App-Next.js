@@ -13,11 +13,12 @@ const Auth = () => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         if (user?.emailVerified) {
+          dispatch(handleOnChangeVerifiedUser(true));
           if (window.location.pathname !== '/' && !window.location.pathname.includes('show')) {
             router.replace('/');
           }
-          dispatch(handleOnChangeVerifiedUser(true));
         } else {
+          dispatch(handleOnChangeVerifiedUser(false));
           if (window.location.pathname !== '/emailVerification') {
             router.replace('/emailVerification');
           }
@@ -30,8 +31,8 @@ const Auth = () => {
           );
         }
       } else {
-        router.replace('/signIn');
         dispatch(handleOnChangeVerifiedUser(false));
+        router.replace('/signIn');
       }
     });
   }, []);

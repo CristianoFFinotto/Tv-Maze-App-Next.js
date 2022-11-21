@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from 'react';
+import { useState } from 'react';
 import { signOut } from 'firebase/auth';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -75,8 +75,9 @@ type PropsType = {
 
 const MyAppBar = (props: PropsType) => {
   const theme = useSelector((state: RootState) => state.theme.value);
-  const dispatch = useDispatch();
   const [mobileOpen, setMobileOpen] = useState<boolean>(false);
+  const currentSearch = useSelector((state: RootState) => state.currentSearch.value);
+  const dispatch = useDispatch();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -163,9 +164,12 @@ const MyAppBar = (props: PropsType) => {
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
-            <StyledInputBase placeholder='Search…' inputProps={{ 'aria-label': 'search' }} />
+            <StyledInputBase
+              placeholder='Search…'
+              value={currentSearch}
+              inputProps={{ 'aria-label': 'search' }}
+            />
           </Search>
-          <MyButton>search</MyButton>
         </Toolbar>
       </AppBar>
       <Box component='nav'>

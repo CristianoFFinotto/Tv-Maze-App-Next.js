@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Loading from '../components/Loading';
 import Header from '../components/Header';
@@ -15,20 +15,28 @@ import {
   Grid,
   Typography,
 } from '@mui/material';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import { useRouter } from 'next/router';
+import { handleOnChangeCurrentSearch } from '../redux/currentSearchSlice';
 
 export default function Home() {
   const [medias, setMedias] = useState<Media[]>([]);
-  const [currentSearch, setCurrentSearch] = useState<string>('');
   const verifiedUser = useSelector((state: RootState) => state.verifiedUser.value);
+  const currentSearch = useSelector((state: RootState) => state.currentSearch.value);
+  const dispatch = useDispatch();
+
   const router = useRouter();
 
+  useEffect(() => {
+    handleOnSearch(currentSearch);
+  }, []);
+
   const handleOnSearch = (search: string) => {
-    setCurrentSearch(search);
-    if (search) {
-      searchByName(search)
+    dispatch(handleOnChangeCurrentSearch(search));
+
+    if (currentSearch) {
+      searchByName(currentSearch)
         .then((data) => {
           setMedias(data);
         })
@@ -64,7 +72,7 @@ export default function Home() {
                     <CardActionArea onClick={() => handleOnCardClick(item.id)}>
                       <CardMedia sx={{ textAlign: 'center' }}>
                         <Image
-                          src={item.image || '/no-image-found.jpg'}
+                          src={item.image}
                           alt={item.name}
                           width={300}
                           height={300}
