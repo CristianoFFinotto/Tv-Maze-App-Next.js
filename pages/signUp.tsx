@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState } from 'react';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { SubmitHandler } from 'react-hook-form';

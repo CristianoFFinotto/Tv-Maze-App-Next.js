@@ -1,28 +1,17 @@
+import React from 'react';
 import { useEffect, useState } from 'react';
-import Image from 'next/image';
 import Loading from '../components/Loading';
 import Header from '../components/Header';
 import MyAppBar from '../components/MyAppBar';
 import { Media, searchByName } from '../Api/api';
-import {
-  Box,
-  Card,
-  CardActionArea,
-  CardActions,
-  CardContent,
-  CardMedia,
-  Grid,
-  IconButton,
-  Typography,
-} from '@mui/material';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import FavoriteIcon from '@mui/icons-material/Favorite';
+import { Box, Grid, Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import { useRouter } from 'next/router';
 import { handleOnChangeCurrentSearch } from '../redux/currentSearchSlice';
-import { ref, set, push, child, update } from 'firebase/database';
+import { push, ref, set } from 'firebase/database';
 import { auth, database } from './_app';
+import Medias from '../components/Medias';
 
 export default function Home() {
   const [medias, setMedias] = useState<Media[]>([]);
@@ -53,8 +42,7 @@ export default function Home() {
   };
 
   const handleOnFavouriteClick = (id: number) => {
-    let key = push(ref(database, `users/${auth.currentUser?.uid}/favourites`), { id: id }).key;
-    update();
+    set(ref(database, `users/${auth.currentUser?.uid}/favorites/${id}`), id);
   };
 
   return (
@@ -64,52 +52,11 @@ export default function Home() {
           <Header title={'Tv Maze App'} description={'Tv Maze App'} />
           <MyAppBar handleOnSearch={handleOnSearch} />
           {medias.length > 0 && currentSearch ? (
-            <Grid container spacing={2} marginTop={'64px'} padding={'10px 40px 20px 40px'}>
-              {medias.map((item, index) => (
-                <Grid
-                  key={index}
-                  item
-                  xs={12}
-                  sm={6}
-                  md={4}
-                  lg={3}
-                  xl={2}
-                  display={'flex'}
-                  justifyContent={'center'}
-                >
-                  <Card sx={{ maxWidth: 345 }}>
-                    <CardActionArea onClick={() => handleOnCardClick(item.id)}>
-                      <CardMedia sx={{ textAlign: 'center' }}>
-                        <Image
-                          src={item.image}
-                          alt={item.name}
-                          width={300}
-                          height={300}
-                          style={{ borderRadius: '10px' }}
-                        />
-                      </CardMedia>
-                      <CardContent>
-                        <Typography gutterBottom variant='h5' component='div'>
-                          {item.name}
-                        </Typography>
-                      </CardContent>
-                    </CardActionArea>
-                    <CardActions sx={{ display: 'felx', justifyContent: 'end' }}>
-                      <IconButton
-                        aria-label='toggle password visibility'
-                        onClick={() => handleOnFavouriteClick(item.id)}
-                      >
-                        {0 ? (
-                          <FavoriteIcon sx={{ color: '#E0144C' }} />
-                        ) : (
-                          <FavoriteBorderIcon sx={{ color: '#E0144C' }} />
-                        )}
-                      </IconButton>
-                    </CardActions>
-                  </Card>
-                </Grid>
-              ))}
-            </Grid>
+            <Medias
+              medias={medias}
+              handleOnCardClick={handleOnCardClick}
+              handleOnFavouriteClick={handleOnFavouriteClick}
+            />
           ) : (
             <Box height={'100vh'} textAlign={'center'} display={'flex'} alignItems={'center'}>
               <Grid container spacing={'2vh'}>

@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState } from 'react';
 import { signOut } from 'firebase/auth';
 import AppBar from '@mui/material/AppBar';
@@ -26,8 +27,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { handleOnChangeTheme } from '../redux/themeSlice';
 import { auth } from '../pages/_app';
 import MyButton from './MyButton';
+import Link from 'next/link';
 
-const navItems = ['Home', 'Favourites'];
+const navItems = ['home', 'favorites'];
 const drawerWidth = 240;
 
 const Search = styled('div')(({ theme }) => ({
@@ -70,7 +72,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 type PropsType = {
-  handleOnSearch: (search: string) => void;
+  handleOnSearch?: (search: string) => void;
 };
 
 const MyAppBar = (props: PropsType) => {
@@ -93,7 +95,12 @@ const MyAppBar = (props: PropsType) => {
         {navItems.map((item) => (
           <ListItem key={item} disablePadding>
             <ListItemButton sx={{ textAlign: 'center' }}>
-              <ListItemText primary={item} />
+              <Link
+                href={item === 'home' ? '/' : `/${item}`}
+                style={{ textDecoration: 'none', color: 'inherit', width: '100%' }}
+              >
+                <ListItemText primary={item} />
+              </Link>
             </ListItemButton>
           </ListItem>
         ))}
@@ -141,7 +148,12 @@ const MyAppBar = (props: PropsType) => {
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
             {navItems.map((item) => (
               <Button key={item} sx={{ color: '#fff' }}>
-                {item}
+                <Link
+                  href={item === 'home' ? '/' : `/${item}`}
+                  style={{ textDecoration: 'none', color: 'inherit', width: '100%' }}
+                >
+                  {item}
+                </Link>
               </Button>
             ))}
             <MyButton
@@ -156,20 +168,22 @@ const MyAppBar = (props: PropsType) => {
               {theme === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
             </IconButton>
           </Box>
-          <Search
-            onChange={(e: any) => {
-              props.handleOnSearch(e.target.value);
-            }}
-          >
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder='Search…'
-              value={currentSearch}
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </Search>
+          {props.handleOnSearch ? (
+            <Search
+              onChange={(e: any) => {
+                props.handleOnSearch!(e.target.value);
+              }}
+            >
+              <SearchIconWrapper>
+                <SearchIcon />
+              </SearchIconWrapper>
+              <StyledInputBase
+                placeholder='Search…'
+                value={currentSearch}
+                inputProps={{ 'aria-label': 'search' }}
+              />
+            </Search>
+          ) : undefined}
         </Toolbar>
       </AppBar>
       <Box component='nav'>

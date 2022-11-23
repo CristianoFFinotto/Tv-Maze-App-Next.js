@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState } from 'react';
 import { Alert, AlertTitle, Grid, Typography } from '@mui/material';
 import { sendPasswordResetEmail } from 'firebase/auth';

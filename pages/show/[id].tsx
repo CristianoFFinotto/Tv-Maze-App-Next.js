@@ -1,3 +1,4 @@
+import React from 'react';
 import { Grid, List, ListItem, Paper, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import { useEffect, useState } from 'react';
@@ -6,6 +7,7 @@ import { MediaDetail, searchById } from '../../Api/api';
 import Loading from '../../components/Loading';
 import { RootState } from '../../redux/store';
 import Image from 'next/image';
+import MyAppBar from '../../components/MyAppBar';
 
 const DetailPage = () => {
   const [media, setMedia] = useState<MediaDetail>();
@@ -25,8 +27,9 @@ const DetailPage = () => {
     <>
       {verifiedUser ? (
         <>
+          <MyAppBar />
           {media ? (
-            <Box display={{ md: 'flex' }} alignItems={{ md: 'center' }} height={{ md: '100vh' }}>
+            <Box display={{ md: 'flex' }} alignItems={{ md: 'center' }} marginTop={'10vh'}>
               <Grid container>
                 <Grid
                   item

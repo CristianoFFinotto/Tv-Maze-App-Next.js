@@ -1,3 +1,4 @@
+import React from 'react';
 import { onAuthStateChanged, sendEmailVerification } from 'firebase/auth';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
@@ -14,7 +15,11 @@ const Auth = () => {
       if (user) {
         if (user?.emailVerified) {
           dispatch(handleOnChangeVerifiedUser(true));
-          if (window.location.pathname !== '/' && !window.location.pathname.includes('show')) {
+          if (
+            window.location.pathname !== '/' &&
+            !window.location.pathname.includes('show') &&
+            window.location.pathname !== '/favorites'
+          ) {
             router.replace('/');
           }
         } else {

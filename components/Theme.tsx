@@ -1,3 +1,4 @@
+import React from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import createTheme, { ThemeOptions } from '@mui/material/styles/createTheme';
 import ThemeProvider from '@mui/material/styles/ThemeProvider';

@@ -1,11 +1,13 @@
+import React from 'react';
 import { Provider } from 'react-redux';
 import { store } from '../redux/store';
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import Theme from '../components/Theme';
 import ErrorBoundary from '../components/ErrorBoundary';
-import Auth from '../components/Auth';
+import Auth from '../tools/Auth';
 import { getDatabase } from 'firebase/database';
+import Favorites from '../tools/Favorites';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyAY_kBZ9Dbaux2HdNqa9SElZUl_3R5pv20',
@@ -27,6 +29,7 @@ const App = ({ Component, pageProps }: any) => {
       <Theme>
         <ErrorBoundary>
           <Auth />
+          <Favorites />
           <Component {...pageProps} />
         </ErrorBoundary>
       </Theme>
