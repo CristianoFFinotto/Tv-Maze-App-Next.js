@@ -92,7 +92,7 @@ const DetailPage = () => {
             </Box>
           ) : (
             <Box display={'flex'} justifyContent={'center'} alignItems={'center'} height={'100vh'}>
-              <strong>Only valid id params permitted!</strong>
+              <Typography variant='h6'>Only valid id params permitted!</Typography>
             </Box>
           )}
         </>

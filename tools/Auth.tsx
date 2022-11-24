@@ -3,18 +3,49 @@ import { onAuthStateChanged, sendEmailVerification } from 'firebase/auth';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { auth } from '../pages/_app';
+import { auth, database } from '../pages/_app';
 import { handleOnChangeVerifiedUser } from '../redux/verifiedUserSlice';
+import { handleOnChangeCurrentSearch } from '../redux/currentSearchSlice';
+import { handleOnChangeFavorites } from '../redux/favoritesSlice';
+import { handleOnChangeTheme } from '../redux/themeSlice';
+import { get, onValue, ref } from 'firebase/database';
 
 const Auth = () => {
   const router = useRouter();
   const dispatch = useDispatch();
+
+  onValue(ref(database, `/`), (snapshot) => {
+    if (snapshot.exists() && auth.currentUser) {
+      dispatch(
+        handleOnChangeFavorites(
+          Object.values(snapshot.val().users[auth.currentUser!.uid].favorites),
+        ),
+      );
+    } else {
+      dispatch(handleOnChangeFavorites(null));
+    }
+  });
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         if (user?.emailVerified) {
           dispatch(handleOnChangeVerifiedUser(true));
+          get(ref(database, `/`))
+            .then((snapshot) => {
+              if (snapshot.exists() && auth.currentUser) {
+                dispatch(
+                  handleOnChangeFavorites(
+                    Object.values(snapshot.val().users[auth.currentUser.uid].favorites),
+                  ),
+                );
+              } else {
+                dispatch(handleOnChangeFavorites(null));
+              }
+            })
+            .catch((error: Error) => {
+              console.error(error.message);
+            });
           if (
             window.location.pathname !== '/' &&
             !window.location.pathname.includes('show') &&
@@ -23,7 +54,6 @@ const Auth = () => {
             router.replace('/');
           }
         } else {
-          dispatch(handleOnChangeVerifiedUser(false));
           if (window.location.pathname !== '/emailVerification') {
             router.replace('/emailVerification');
           }
@@ -37,6 +67,10 @@ const Auth = () => {
         }
       } else {
         dispatch(handleOnChangeVerifiedUser(false));
+        dispatch(handleOnChangeCurrentSearch(''));
+        dispatch(handleOnChangeFavorites(null));
+        dispatch(handleOnChangeTheme('light'));
+
         router.replace('/signIn');
       }
     });

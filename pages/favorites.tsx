@@ -1,3 +1,5 @@
+import { Typography } from '@mui/material';
+import Box from '@mui/material/Box';
 import { remove, ref } from 'firebase/database';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
@@ -12,7 +14,7 @@ import { auth, database } from './_app';
 const Favorites = () => {
   const verifiedUser = useSelector((state: RootState) => state.verifiedUser.value);
   const favorites = useSelector((state: RootState) => state.favorites.value);
-  const [medias, setMedias] = useState<Media[]>([]);
+  const [medias, setMedias] = useState<Media[]>();
   const router = useRouter();
 
   const handleOnCardClick = (id: number) => {
@@ -45,14 +47,16 @@ const Favorites = () => {
       {verifiedUser ? (
         <>
           <MyAppBar />
-          {medias.length > 0 ? (
+          {medias && favorites ? (
             <Medias
               medias={medias}
               handleOnCardClick={handleOnCardClick}
               handleOnFavouriteClick={handleOnFavouriteClick}
             />
           ) : (
-            <Loading />
+            <Box display={'flex'} justifyContent={'center'} alignItems={'center'} height={'100vh'}>
+              <Typography variant='h6'>Not favorites found!</Typography>
+            </Box>
           )}
         </>
       ) : (

@@ -29,7 +29,6 @@ const App = ({ Component, pageProps }: any) => {
       <Theme>
         <ErrorBoundary>
           <Auth />
-          <Favorites />
           <Component {...pageProps} />
         </ErrorBoundary>
       </Theme>

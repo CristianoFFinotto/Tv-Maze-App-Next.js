@@ -12,9 +12,14 @@ export const themeSlice = createSlice({
   name: 'currentSearch',
   initialState,
   reducers: {
-    handleOnChangeTheme: (state, action: { type: string }) => {
-      if (state.value === 'light') state.value = 'dark';
-      else state.value = 'light';
+    handleOnChangeTheme: (state, action: { type: string; payload: string }) => {
+      if (action.payload) {
+        state.value = action.payload;
+      } else if (state.value === 'light') {
+        state.value = 'dark';
+      } else {
+        state.value = 'light';
+      }
     },
   },
 });

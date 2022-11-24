@@ -114,7 +114,7 @@ const MyAppBar = (props: PropsType) => {
         </ListItem>
         <ListItem disablePadding>
           <ListItemButton sx={{ display: 'flex', justifyContent: 'center' }}>
-            <IconButton onClick={() => dispatch(handleOnChangeTheme())} color='inherit'>
+            <IconButton onClick={() => dispatch(handleOnChangeTheme(''))} color='inherit'>
               {theme === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
             </IconButton>
           </ListItemButton>
@@ -164,7 +164,7 @@ const MyAppBar = (props: PropsType) => {
             >
               Sign out
             </MyButton>
-            <IconButton onClick={() => dispatch(handleOnChangeTheme())} color='inherit'>
+            <IconButton onClick={() => dispatch(handleOnChangeTheme(''))} color='inherit'>
               {theme === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
             </IconButton>
           </Box>

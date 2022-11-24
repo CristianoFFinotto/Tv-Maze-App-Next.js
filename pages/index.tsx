@@ -23,7 +23,9 @@ export default function Home() {
   const router = useRouter();
 
   useEffect(() => {
-    handleOnSearch(currentSearch);
+    if (currentSearch) {
+      handleOnSearch(currentSearch);
+    }
   }, []);
 
   const handleOnSearch = (search: string) => {
@@ -46,6 +48,8 @@ export default function Home() {
     if (favorites?.find((value) => value === id)) {
       remove(ref(database, `users/${auth.currentUser?.uid}/favorites/${id}`));
     } else {
+      console.log('seracg');
+
       set(ref(database, `users/${auth.currentUser?.uid}/favorites/${id}`), id);
     }
   };
