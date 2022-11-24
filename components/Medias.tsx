@@ -13,6 +13,8 @@ import { Media } from '../Api/api';
 import Image from 'next/image';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import { useSelector } from 'react-redux';
+import { RootState } from '../redux/store';
 
 type PropsStype = {
   medias: Media[];
@@ -21,6 +23,7 @@ type PropsStype = {
 };
 
 const Medias = (props: PropsStype) => {
+  const favorites = useSelector((state: RootState) => state.favorites.value);
   return (
     <Grid container spacing={2} marginTop={'64px'} padding={'10px 40px 20px 40px'}>
       {props.medias.map((item, index) => (
@@ -57,7 +60,7 @@ const Medias = (props: PropsStype) => {
                 aria-label='toggle password visibility'
                 onClick={() => props.handleOnFavouriteClick(item.id)}
               >
-                {0 ? (
+                {favorites?.find((id) => id === item.id) ? (
                   <FavoriteIcon sx={{ color: '#E0144C' }} />
                 ) : (
                   <FavoriteBorderIcon sx={{ color: '#E0144C' }} />

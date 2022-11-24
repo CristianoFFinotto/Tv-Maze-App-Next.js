@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import { useRouter } from 'next/router';
 import { handleOnChangeCurrentSearch } from '../redux/currentSearchSlice';
-import { push, ref, set } from 'firebase/database';
+import { ref, set, remove } from 'firebase/database';
 import { auth, database } from './_app';
 import Medias from '../components/Medias';
 
@@ -17,6 +17,7 @@ export default function Home() {
   const [medias, setMedias] = useState<Media[]>([]);
   const verifiedUser = useSelector((state: RootState) => state.verifiedUser.value);
   const currentSearch = useSelector((state: RootState) => state.currentSearch.value);
+  const favorites = useSelector((state: RootState) => state.favorites.value);
   const dispatch = useDispatch();
 
   const router = useRouter();
@@ -42,7 +43,11 @@ export default function Home() {
   };
 
   const handleOnFavouriteClick = (id: number) => {
-    set(ref(database, `users/${auth.currentUser?.uid}/favorites/${id}`), id);
+    if (favorites?.find((value) => value === id)) {
+      remove(ref(database, `users/${auth.currentUser?.uid}/favorites/${id}`));
+    } else {
+      set(ref(database, `users/${auth.currentUser?.uid}/favorites/${id}`), id);
+    }
   };
 
   return (
