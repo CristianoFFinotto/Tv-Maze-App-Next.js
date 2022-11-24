@@ -15,6 +15,8 @@ const Auth = () => {
   const dispatch = useDispatch();
 
   onValue(ref(database, `/`), (snapshot) => {
+    console.log('valueee');
+
     if (snapshot.exists() && auth.currentUser) {
       dispatch(
         handleOnChangeFavorites(
