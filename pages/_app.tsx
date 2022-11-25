@@ -7,7 +7,6 @@ import Theme from '../components/Theme';
 import ErrorBoundary from '../components/ErrorBoundary';
 import Auth from '../tools/Auth';
 import { getDatabase } from 'firebase/database';
-import Favorites from '../tools/Favorites';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyAY_kBZ9Dbaux2HdNqa9SElZUl_3R5pv20',
