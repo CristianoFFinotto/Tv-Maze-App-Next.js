@@ -14,19 +14,18 @@ const Auth = () => {
   const router = useRouter();
   const dispatch = useDispatch();
 
-  onValue(ref(database, `/`), (snapshot) => {
-    if (snapshot.exists() && auth.currentUser) {
-      dispatch(
-        handleOnChangeFavorites(
-          Object.values(snapshot.val().users[auth.currentUser!.uid].favorites),
-        ),
-      );
-    } else {
-      dispatch(handleOnChangeFavorites(null));
-    }
-  });
-
   useEffect(() => {
+    onValue(ref(database, `/`), (snapshot) => {
+      if (snapshot.exists() && auth.currentUser) {
+        dispatch(
+          handleOnChangeFavorites(
+            Object.values(snapshot.val().users[auth.currentUser!.uid].favorites),
+          ),
+        );
+      } else {
+        dispatch(handleOnChangeFavorites(null));
+      }
+    });
     onAuthStateChanged(auth, (user) => {
       if (user) {
         if (user?.emailVerified) {

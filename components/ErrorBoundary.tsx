@@ -7,6 +7,7 @@ class ErrorBoundary extends React.Component<any, any> {
     // Define a state variable to track whether is an error or not
     this.state = { hasError: false };
   }
+  // eslint-disable-next-line no-unused-vars
   static getDerivedStateFromError(error: any) {
     // Update state so the next render will show the fallback UI
 

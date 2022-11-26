@@ -8,8 +8,8 @@ import { RootState } from '../redux/store';
 const light: ThemeOptions = createTheme({
   palette: {
     background: {
-      default: '#fafafa',
-      paper: '#fff',
+      default: '#DFE8CC',
+      paper: '#FFEEAF',
     },
     text: {
       primary: '#000000de',

@@ -18,7 +18,9 @@ import { RootState } from '../redux/store';
 
 type PropsStype = {
   medias: Media[];
+  // eslint-disable-next-line no-unused-vars
   handleOnCardClick: (id: number) => void;
+  // eslint-disable-next-line no-unused-vars
   handleOnFavouriteClick: (id: number) => void;
 };
 
@@ -38,7 +40,7 @@ const Medias = (props: PropsStype) => {
           display={'flex'}
           justifyContent={'center'}
         >
-          <Card sx={{ maxWidth: 345 }}>
+          <Card sx={{ maxWidth: 301 }}>
             <CardActionArea onClick={() => props.handleOnCardClick(item.id)}>
               <CardMedia sx={{ textAlign: 'center' }}>
                 <Image
@@ -49,7 +51,7 @@ const Medias = (props: PropsStype) => {
                   style={{ borderRadius: '10px' }}
                 />
               </CardMedia>
-              <CardContent>
+              <CardContent sx={{ minHeight: { md: '135px' } }}>
                 <Typography gutterBottom variant='h5' component='div'>
                   {item.name}
                 </Typography>

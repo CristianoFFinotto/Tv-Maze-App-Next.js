@@ -21,6 +21,7 @@ type propsType = {
   errors?: string /* Errors during sign in or sign up */;
 };
 
+// eslint-disable-next-line no-unused-vars
 const catchErrorsValidation = (field: FieldError | undefined, type: string) => {
   let errorText = '';
 
@@ -57,6 +58,7 @@ const Form = (props: propsType) => {
         helperText={catchErrorsValidation(errors.email, 'email')}
         {...register('email', {
           required: true,
+          // eslint-disable-next-line no-useless-escape
           pattern: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
         })}
       />

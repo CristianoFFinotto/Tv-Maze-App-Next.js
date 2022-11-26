@@ -5,10 +5,9 @@ import Header from '../components/Header';
 import MyAppBar from '../components/MyAppBar';
 import { Media, searchByName } from '../Api/api';
 import { Box, Grid, Typography } from '@mui/material';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import { useRouter } from 'next/router';
-import { handleOnChangeCurrentSearch } from '../redux/currentSearchSlice';
 import { ref, set, remove } from 'firebase/database';
 import { auth, database } from './_app';
 import Medias from '../components/Medias';
@@ -18,7 +17,6 @@ export default function Home() {
   const verifiedUser = useSelector((state: RootState) => state.verifiedUser.value);
   const currentSearch = useSelector((state: RootState) => state.currentSearch.value);
   const favorites = useSelector((state: RootState) => state.favorites.value);
-  const dispatch = useDispatch();
 
   const router = useRouter();
 
@@ -29,8 +27,6 @@ export default function Home() {
   }, []);
 
   const handleOnSearch = (search: string) => {
-    dispatch(handleOnChangeCurrentSearch(search));
-
     if (search) {
       searchByName(search)
         .then((data) => {
@@ -58,7 +54,7 @@ export default function Home() {
         <>
           <Header title={'Tv Maze App'} description={'Tv Maze App'} />
           <MyAppBar handleOnSearch={handleOnSearch} />
-          {medias.length > 0 && currentSearch ? (
+          {medias.length > 0 ? (
             <Medias
               medias={medias}
               handleOnCardClick={handleOnCardClick}
