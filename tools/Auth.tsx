@@ -8,43 +8,30 @@ import { handleOnChangeVerifiedUser } from '../redux/verifiedUserSlice';
 import { handleOnChangeCurrentSearch } from '../redux/currentSearchSlice';
 import { handleOnChangeFavorites } from '../redux/favoritesSlice';
 import { handleOnChangeTheme } from '../redux/themeSlice';
-import { get, onValue, ref } from 'firebase/database';
+import { onValue, ref } from 'firebase/database';
 
 const Auth = () => {
   const router = useRouter();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    onValue(ref(database, `/`), (snapshot) => {
-      if (snapshot.exists() && auth.currentUser) {
-        dispatch(
-          handleOnChangeFavorites(
-            Object.values(snapshot.val().users[auth.currentUser!.uid].favorites),
-          ),
-        );
-      } else {
-        dispatch(handleOnChangeFavorites(null));
-      }
-    });
     onAuthStateChanged(auth, (user) => {
       if (user) {
         if (user?.emailVerified) {
           dispatch(handleOnChangeVerifiedUser(true));
-          get(ref(database, `/`))
-            .then((snapshot) => {
-              if (snapshot.exists() && auth.currentUser) {
-                dispatch(
-                  handleOnChangeFavorites(
-                    Object.values(snapshot.val().users[auth.currentUser.uid].favorites),
-                  ),
-                );
-              } else {
-                dispatch(handleOnChangeFavorites(null));
-              }
-            })
-            .catch((error: Error) => {
-              console.error(error.message);
-            });
+
+          onValue(ref(database, `/`), (snapshot) => {
+            if (snapshot.exists()) {
+              dispatch(
+                handleOnChangeFavorites(
+                  Object.values(snapshot.val().users[auth.currentUser!.uid].favorites),
+                ),
+              );
+            } else {
+              dispatch(handleOnChangeFavorites(null));
+            }
+          });
+
           if (
             window.location.pathname !== '/' &&
             !window.location.pathname.includes('show') &&
