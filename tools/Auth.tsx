@@ -52,7 +52,7 @@ const Auth = () => {
             router.replace('/emailVerification');
           }
           const actionCodeSettings = {
-            url: 'http://localhost:3000',
+            url: 'https://tv-maze-appp.netlify.app',
             handleCodeInApp: false,
           };
           sendEmailVerification(user, actionCodeSettings).catch((error: Error) =>
