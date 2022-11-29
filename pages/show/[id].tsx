@@ -3,17 +3,75 @@ import { Grid, List, ListItem, Paper, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+<<<<<<< HEAD
 import { MediaDetail, searchById } from '../../Api/api';
+=======
+import parse from 'html-react-parser';
+>>>>>>> develop
 import Loading from '../../components/Loading';
 import { RootState } from '../../redux/store';
 import Image from 'next/image';
 import MyAppBar from '../../components/MyAppBar';
 
+<<<<<<< HEAD
 const DetailPage = () => {
+=======
+type MediaDetailApi = {
+  id: number;
+  name: string;
+  genres: string[];
+  rating?: {
+    average?: number;
+  };
+  image?: {
+    original?: string;
+  };
+  summary?: string;
+};
+
+type MediaDetail = {
+  id: number;
+  name: string;
+  genres: string[];
+  rating: number | string;
+  image: string;
+  summary: string;
+};
+
+type PropsType = {
+  data: MediaDetail | null;
+};
+
+export async function getServerSideProps({ resolvedUrl }: any) {
+  let data: MediaDetail;
+  let id = Number(resolvedUrl.slice(6));
+
+  if (!isNaN(id)) {
+    const res = await fetch(`https://api.tvmaze.com/shows/${id}`);
+    if (res.ok) {
+      const result: MediaDetailApi = await res.json();
+
+      data = {
+        id: result.id,
+        name: result.name,
+        genres: result.genres.length > 0 ? result.genres : ['no genres available'],
+        image: result.image?.original || '/no-image-found.jpg',
+        summary: result.summary ? result.summary : 'no summary available',
+        rating: result.rating?.average || 'no rating available',
+      };
+      return { props: { data: data } };
+    }
+  }
+  return { props: { data: null } };
+}
+
+const DetailPage = (props: PropsType) => {
+>>>>>>> develop
   const [media, setMedia] = useState<MediaDetail>();
   const verifiedUser = useSelector((state: RootState) => state.verifiedUser.value);
 
   useEffect(() => {
+<<<<<<< HEAD
     if (verifiedUser && !isNaN(Number(window.location.pathname.slice(6)))) {
       searchById(window.location.pathname.slice(6))
         .then((media) => setMedia(media))
@@ -21,6 +79,14 @@ const DetailPage = () => {
           console.error(err.message);
         });
     }
+=======
+    if (verifiedUser) {
+      if (props.data) {
+        setMedia(props.data);
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+>>>>>>> develop
   }, [verifiedUser]);
 
   return (
@@ -80,7 +146,11 @@ const DetailPage = () => {
                       <Typography variant='h6' fontWeight={'bold'}>
                         Summay
                       </Typography>
+<<<<<<< HEAD
                       {media.summary}
+=======
+                      {parse(media.summary)}
+>>>>>>> develop
                       <Typography variant='h6' fontWeight={'bold'}>
                         Rating
                       </Typography>
