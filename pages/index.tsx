@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import Loading from '../components/Loading';
 import Header from '../components/Header';
 import MyAppBar from '../components/MyAppBar';
-import { Media, searchByName } from '../Api/api';
 import { Box, Grid, Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
@@ -11,6 +10,29 @@ import { useRouter } from 'next/router';
 import { ref, set, remove } from 'firebase/database';
 import { auth, database } from './_app';
 import Medias from '../components/Medias';
+
+type MediaApi = [
+  {
+    show: {
+      id: number;
+      name: string;
+      genres?: string[];
+      rating?: {
+        average?: number;
+      };
+      image?: {
+        original?: string;
+      };
+      summary?: string;
+    };
+  },
+];
+
+type Media = {
+  id: number;
+  name: string;
+  image: string;
+};
 
 export default function Home() {
   const [medias, setMedias] = useState<Media[]>([]);
@@ -26,13 +48,19 @@ export default function Home() {
     }
   }, []);
 
-  const handleOnSearch = (search: string) => {
+  const handleOnSearch = async (search: string) => {
     if (search) {
-      searchByName(search)
-        .then((data) => {
-          setMedias(data);
-        })
-        .catch((err: Error) => console.error(err.message));
+      const res = await fetch(`https://api.tvmaze.com/search/shows?q=${search}`);
+      if (res.ok) {
+        const data: MediaApi = await res.json();
+        setMedias(
+          data.map((item) => ({
+            id: item.show.id,
+            name: item.show.name,
+            image: item.show.image?.original || '/no-image-found.jpg',
+          })),
+        );
+      }
     }
   };
 

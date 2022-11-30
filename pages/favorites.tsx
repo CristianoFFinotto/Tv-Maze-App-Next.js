@@ -4,12 +4,17 @@ import Box from '@mui/material/Box';
 import { remove, ref } from 'firebase/database';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
-import { Media, searchById } from '../Api/api';
 import Loading from '../components/Loading';
 import Medias from '../components/Medias';
 import MyAppBar from '../components/MyAppBar';
 import { RootState } from '../redux/store';
 import { auth, database } from './_app';
+
+type Media = {
+  id: number;
+  name: string;
+  image: string;
+};
 
 const Favorites = () => {
   const verifiedUser = useSelector((state: RootState) => state.verifiedUser.value);
@@ -29,16 +34,30 @@ const Favorites = () => {
 
   useEffect(() => {
     if (favorites) {
-      Promise.allSettled(favorites.map((id) => searchById(`${id}`)))
-        .then((result) => result.filter((element) => element.status === 'fulfilled'))
-        .then((result: any) =>
-          result.map((item: any) => ({
-            id: item.value.id,
-            name: item.value.name,
-            image: item.value.image,
-          })),
+      Promise.allSettled(favorites.map((id) => fetch(`https://api.tvmaze.com/shows/${id}`)))
+        .then((resSettled) =>
+          Promise.allSettled(
+            resSettled.map((resFetch) =>
+              resFetch.status === 'fulfilled' && resFetch.value.ok
+                ? resFetch.value.json()
+                : undefined,
+            ),
+          ),
         )
-        .then((data) => setMedias(data));
+        .then((res) => {
+          let medias: Media[] = [];
+
+          res.forEach((res) => {
+            if (res.status === 'fulfilled') {
+              medias.push({
+                id: res.value.id,
+                name: res.value.name,
+                image: res.value.image?.original || '/no-image-found.jpg',
+              });
+            }
+          });
+          setMedias(medias);
+        });
     }
   }, [favorites]);
 

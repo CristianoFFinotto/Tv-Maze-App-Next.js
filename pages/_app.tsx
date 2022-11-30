@@ -9,13 +9,13 @@ import Auth from '../tools/Auth';
 import { getDatabase } from 'firebase/database';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyAY_kBZ9Dbaux2HdNqa9SElZUl_3R5pv20',
-  authDomain: 'tv-maze-app-7b398.firebaseapp.com',
-  databaseURL: 'https://tv-maze-app-7b398-default-rtdb.europe-west1.firebasedatabase.app',
-  projectId: 'tv-maze-app-7b398',
-  storageBucket: 'tv-maze-app-7b398.appspot.com',
-  messagingSenderId: '831479367282',
-  appId: '1:831479367282:web:86756c13834ae97f6f24eb',
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_apiKey,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_authDomain,
+  databaseURL: process.env.NEXT_PUBLIC_FIREBASE_databaseURL,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_projectId,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_storageBucket,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_messagingSenderId,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_appId,
 };
 
 const app = initializeApp(firebaseConfig);
