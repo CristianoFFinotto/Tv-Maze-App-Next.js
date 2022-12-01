@@ -9,11 +9,7 @@ import IconButton from '@mui/material/IconButton';
 import MyButton from './MyButton';
 import { InputAdornment } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-
-export type Inputs = {
-  email: string;
-  password: string;
-};
+import { Inputs } from '../tools/Types';
 
 type propsType = {
   onSubmit: SubmitHandler<Inputs>;

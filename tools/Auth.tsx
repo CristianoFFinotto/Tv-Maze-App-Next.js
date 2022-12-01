@@ -71,6 +71,7 @@ const Auth = () => {
         router.replace('/signIn');
       }
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return <></>;
 };

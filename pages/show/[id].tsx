@@ -8,28 +8,8 @@ import Loading from '../../components/Loading';
 import { RootState } from '../../redux/store';
 import Image from 'next/image';
 import MyAppBar from '../../components/MyAppBar';
-
-type MediaDetailApi = {
-  id: number;
-  name: string;
-  genres: string[];
-  rating?: {
-    average?: number;
-  };
-  image?: {
-    original?: string;
-  };
-  summary?: string;
-};
-
-type MediaDetail = {
-  id: number;
-  name: string;
-  genres: string[];
-  rating: number | string;
-  image: string;
-  summary: string;
-};
+import { MediaDetail, MediaDetailApi } from '../../tools/Types';
+import Header from '../../components/Header';
 
 type PropsType = {
   data: MediaDetail | null;
@@ -75,6 +55,7 @@ const DetailPage = (props: PropsType) => {
     <>
       {verifiedUser ? (
         <>
+          <Header title={'Tv Maze App - Detail'} description={'Tv Maze App - Detail'} />
           <MyAppBar />
           {media ? (
             <Box display={{ md: 'flex' }} alignItems={{ md: 'center' }} marginTop={'10vh'}>

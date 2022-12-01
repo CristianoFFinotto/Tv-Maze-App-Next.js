@@ -10,29 +10,7 @@ import { useRouter } from 'next/router';
 import { ref, set, remove } from 'firebase/database';
 import { auth, database } from './_app';
 import Medias from '../components/Medias';
-
-type MediaApi = [
-  {
-    show: {
-      id: number;
-      name: string;
-      genres?: string[];
-      rating?: {
-        average?: number;
-      };
-      image?: {
-        original?: string;
-      };
-      summary?: string;
-    };
-  },
-];
-
-type Media = {
-  id: number;
-  name: string;
-  image: string;
-};
+import { Media, MediaApi } from '../tools/Types';
 
 export default function Home() {
   const [medias, setMedias] = useState<Media[]>([]);
@@ -46,6 +24,7 @@ export default function Home() {
     if (currentSearch) {
       handleOnSearch(currentSearch);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleOnSearch = async (search: string) => {

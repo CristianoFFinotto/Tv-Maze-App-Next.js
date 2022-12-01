@@ -7,12 +7,13 @@ import { SubmitHandler } from 'react-hook-form';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { auth } from './_app';
-import Form, { Inputs } from '../components/Form';
+import Form from '../components/Form';
 import MyButton from '../components/MyButton';
 import Loading from '../components/Loading';
 import Header from '../components/Header';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
+import { Inputs } from '../tools/Types';
 
 const SignIn = () => {
   const [SignInError, setSignInError] = useState<string>('');

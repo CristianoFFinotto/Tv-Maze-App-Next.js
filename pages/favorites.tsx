@@ -9,12 +9,8 @@ import Medias from '../components/Medias';
 import MyAppBar from '../components/MyAppBar';
 import { RootState } from '../redux/store';
 import { auth, database } from './_app';
-
-type Media = {
-  id: number;
-  name: string;
-  image: string;
-};
+import { Media } from '../tools/Types';
+import Header from '../components/Header';
 
 const Favorites = () => {
   const verifiedUser = useSelector((state: RootState) => state.verifiedUser.value);
@@ -65,6 +61,7 @@ const Favorites = () => {
     <>
       {verifiedUser ? (
         <>
+          <Header title={'Tv Maze App - Favorites'} description={'Tv Maze App - Favorites'} />
           <MyAppBar />
           {medias && favorites ? (
             <Medias

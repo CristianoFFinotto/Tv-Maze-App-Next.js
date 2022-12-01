@@ -9,12 +9,12 @@ import {
   CardActions,
   IconButton,
 } from '@mui/material';
-import { Media } from '../Api/api';
 import Image from 'next/image';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
+import { Media } from '../tools/Types';
 
 type PropsStype = {
   medias: Media[];
@@ -51,8 +51,17 @@ const Medias = (props: PropsStype) => {
                   style={{ borderRadius: '10px' }}
                 />
               </CardMedia>
-              <CardContent sx={{ minHeight: { md: '135px' } }}>
-                <Typography gutterBottom variant='h5' component='div'>
+              <CardContent
+                sx={{
+                  height: 60,
+                }}
+              >
+                <Typography
+                  gutterBottom
+                  variant='h5'
+                  component='div'
+                  sx={{ textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}
+                >
                   {item.name}
                 </Typography>
               </CardContent>

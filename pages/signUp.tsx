@@ -6,11 +6,11 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Form from '../components/Form';
 import { auth } from './_app';
-import { Inputs } from '../components/Form';
 import Loading from '../components/Loading';
 import Header from '../components/Header';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
+import { Inputs } from '../tools/Types';
 
 const SignUp = () => {
   const [signUpError, setSignUpError] = useState<string>('');
