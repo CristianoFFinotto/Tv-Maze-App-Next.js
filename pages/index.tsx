@@ -43,16 +43,24 @@ export default function Home() {
     }
   };
 
-  const handleOnCardClick = (id: number) => {
+  const handleOnCardClick = (id: string) => {
     router.push(`/show/${id}`);
   };
 
-  const handleOnFavouriteClick = (id: number) => {
+  const handleOnFavouriteClick = (id: string) => {
     if (favorites?.find((value) => value === id)) {
       remove(ref(database, `users/${auth.currentUser?.uid}/favorites/${id}`));
     } else {
       set(ref(database, `users/${auth.currentUser?.uid}/favorites/${id}`), id);
     }
+  };
+
+  const handleOnClickPlay = (id: string) => {
+    set(ref(database, `watching/${auth.currentUser?.uid}`), id);
+  };
+
+  const handleOnClickStop = () => {
+    remove(ref(database, `watching/${auth.currentUser?.uid}`));
   };
 
   return (
@@ -66,6 +74,8 @@ export default function Home() {
               medias={medias}
               handleOnCardClick={handleOnCardClick}
               handleOnFavouriteClick={handleOnFavouriteClick}
+              handleOnClickPlay={handleOnClickPlay}
+              handleOnClickStop={handleOnClickStop}
             />
           ) : (
             <Box height={'100vh'} textAlign={'center'} display={'flex'} alignItems={'center'}>

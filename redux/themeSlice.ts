@@ -9,7 +9,7 @@ const initialState: ThemeType = {
 };
 
 export const themeSlice = createSlice({
-  name: 'currentSearch',
+  name: 'themeSlice',
   initialState,
   reducers: {
     handleOnChangeTheme: (state, action: { type: string; payload: string }) => {

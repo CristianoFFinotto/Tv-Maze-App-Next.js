@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Typography } from '@mui/material';
 import Box from '@mui/material/Box';
-import { remove, ref } from 'firebase/database';
+import { remove, ref, set } from 'firebase/database';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import Loading from '../components/Loading';
@@ -16,13 +16,14 @@ const Favorites = () => {
   const verifiedUser = useSelector((state: RootState) => state.verifiedUser.value);
   const favorites = useSelector((state: RootState) => state.favorites.value);
   const [medias, setMedias] = useState<Media[]>();
+
   const router = useRouter();
 
-  const handleOnCardClick = (id: number) => {
+  const handleOnCardClick = (id: string) => {
     router.push(`/show/${id}`);
   };
 
-  const handleOnFavouriteClick = (id: number) => {
+  const handleOnFavouriteClick = (id: string) => {
     if (favorites?.find((value) => value === id)) {
       remove(ref(database, `users/${auth.currentUser?.uid}/favorites/${id}`));
     }
@@ -68,6 +69,8 @@ const Favorites = () => {
               medias={medias}
               handleOnCardClick={handleOnCardClick}
               handleOnFavouriteClick={handleOnFavouriteClick}
+              handleOnClickPlay={handleOnClickPlay}
+              handleOnClickStop={handleOnClickStop}
             />
           ) : (
             <Box display={'flex'} justifyContent={'center'} alignItems={'center'} height={'100vh'}>

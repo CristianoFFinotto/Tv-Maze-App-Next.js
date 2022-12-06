@@ -4,11 +4,12 @@ import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { auth, database } from '../pages/_app';
-import { handleOnChangeVerifiedUser } from '../redux/verifiedUserSlice';
+import { handleOnChangeUser } from '../redux/currentUser';
 import { handleOnChangeCurrentSearch } from '../redux/currentSearchSlice';
 import { handleOnChangeFavorites } from '../redux/favoritesSlice';
 import { handleOnChangeTheme } from '../redux/themeSlice';
 import { child, get, onValue, ref } from 'firebase/database';
+import { handleWatching } from '../redux/nowWatchingSlice';
 
 const Auth = () => {
   const router = useRouter();
@@ -18,7 +19,12 @@ const Auth = () => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         if (user?.emailVerified) {
-          dispatch(handleOnChangeVerifiedUser(true));
+          dispatch(
+            handleOnChangeUser({
+              uid: user.uid,
+              verified: true,
+            }),
+          );
 
           get(child(ref(database), `users/${user.uid}/favorites`))
             .then((snapshot) => {
@@ -32,11 +38,43 @@ const Auth = () => {
               console.error(error);
             });
 
-          onValue(child(ref(database), `users/${user.uid}`), (snapshot) => {
+          // get(ref(database, 'watching'))
+          //   .then((snapshot) => {
+          //     if (snapshot.exists()) {
+          //       if (snapshot.val().current !== 'null') {
+          //         dispatch(
+          //           handleWatching({
+          //             userUid: snapshot.val(),
+          //             showId: snapshot.val().current.showId,
+          //           }),
+          //         );
+          //       } else {
+          //         dispatch(handleWatching(null));
+          //       }
+          //     }
+          //   })
+          //   .catch((error) => {
+          //     console.error(error);
+          //   });
+
+          onValue(ref(database), (snapshot) => {
             if (snapshot.exists()) {
-              dispatch(handleOnChangeFavorites(Object.values(snapshot.val().favorites)));
-            } else {
-              dispatch(handleOnChangeFavorites(null));
+              if (snapshot.val().users[user.uid]) {
+                dispatch(
+                  handleOnChangeFavorites(Object.values(snapshot.val().users[user.uid].favorites)),
+                );
+              }
+
+              // if (snapshot.val().watching?.current) {
+              //   dispatch(
+              //     handleWatching({
+              //       userEmail: snapshot.val().watching.current.userEmail,
+              //       showId: snapshot.val().watching.current.showId,
+              //     }),
+              //   );
+              // } else {
+              //   dispatch(handleWatching(null));
+              // }
             }
           });
 
@@ -63,10 +101,11 @@ const Auth = () => {
           );
         }
       } else {
-        dispatch(handleOnChangeVerifiedUser(false));
+        dispatch(handleOnChangeUser(null));
         dispatch(handleOnChangeCurrentSearch(''));
         dispatch(handleOnChangeFavorites(null));
         dispatch(handleOnChangeTheme('light'));
+        dispatch(handleWatching(null));
 
         router.replace('/signIn');
       }

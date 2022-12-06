@@ -15,17 +15,24 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import { Media } from '../tools/Types';
+import PlayCircleIcon from '@mui/icons-material/PlayCircle';
+import StopIcon from '@mui/icons-material/Stop';
 
 type PropsStype = {
   medias: Media[];
   // eslint-disable-next-line no-unused-vars
-  handleOnCardClick: (id: number) => void;
+  handleOnCardClick: (id: string) => void;
   // eslint-disable-next-line no-unused-vars
-  handleOnFavouriteClick: (id: number) => void;
+  handleOnFavouriteClick: (id: string) => void;
+
+  // eslint-disable-next-line no-unused-vars
+  handleOnClickPlay: (id: string) => void;
+  handleOnClickStop: () => void;
 };
 
 const Medias = (props: PropsStype) => {
   const favorites = useSelector((state: RootState) => state.favorites.value);
+  const watchingStatus = useSelector((state: RootState) => state.watching.value);
   return (
     <Grid container spacing={2} marginTop={'64px'} padding={'10px 40px 20px 40px'}>
       {props.medias.map((item, index) => (
@@ -66,7 +73,21 @@ const Medias = (props: PropsStype) => {
                 </Typography>
               </CardContent>
             </CardActionArea>
-            <CardActions sx={{ display: 'felx', justifyContent: 'end' }}>
+            <CardActions sx={{ display: 'felx', justifyContent: 'space-between' }}>
+              {watchingStatus && String(watchingStatus.showId) === String(item.id) ? (
+                <IconButton aria-label='play tv/show' onClick={() => props.handleOnClickStop()}>
+                  <StopIcon />
+                </IconButton>
+              ) : (
+                <IconButton
+                  aria-label='play tv/show'
+                  onClick={() => (watchingStatus ? undefined : props.handleOnClickPlay(item.id))}
+                  disabled={watchingStatus ? true : false}
+                >
+                  <PlayCircleIcon />
+                </IconButton>
+              )}
+
               <IconButton
                 aria-label='toggle password visibility'
                 onClick={() => props.handleOnFavouriteClick(item.id)}

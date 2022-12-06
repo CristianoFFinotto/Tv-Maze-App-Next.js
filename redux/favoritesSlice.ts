@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-export type FavoritesType = number[] | null;
+export type FavoritesType = string[] | null;
 
 export type FavoritesSliceType = {
   value: FavoritesType;
@@ -11,7 +11,7 @@ const initialState: FavoritesSliceType = {
 };
 
 export const favoritesSlice = createSlice({
-  name: 'favorites',
+  name: 'favoritesSlice',
   initialState,
   reducers: {
     handleOnChangeFavorites: (state, action: { type: string; payload: FavoritesType }) => {

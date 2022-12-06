@@ -9,7 +9,7 @@ const initialState: CurrentSearchType = {
 };
 
 export const currentSearchSlice = createSlice({
-  name: 'verifiedUser',
+  name: 'currentSearchSlice',
   initialState,
   reducers: {
     handleOnChangeCurrentSearch: (state, action: { type: string; payload: string }) => {
