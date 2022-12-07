@@ -40,7 +40,7 @@ export async function getServerSideProps({ resolvedUrl }: any) {
 
 const DetailPage = (props: PropsType) => {
   const [media, setMedia] = useState<MediaDetail>();
-  const verifiedUser = useSelector((state: RootState) => state.verifiedUser.value);
+  const verifiedUser = useSelector((state: RootState) => state.currentUserVerified.value);
 
   useEffect(() => {
     if (verifiedUser) {

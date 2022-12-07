@@ -14,7 +14,7 @@ import { Inputs } from '../tools/Types';
 
 const SignUp = () => {
   const [signUpError, setSignUpError] = useState<string>('');
-  const verifiedUser = useSelector((state: RootState) => state.verifiedUser.value);
+  const verifiedUser = useSelector((state: RootState) => state.currentUserVerified.value);
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     createUserWithEmailAndPassword(auth, data.email, data.password).catch((error: Error) =>

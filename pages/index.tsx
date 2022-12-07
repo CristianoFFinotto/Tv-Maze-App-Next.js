@@ -14,9 +14,9 @@ import { Media, MediaApi } from '../tools/Types';
 
 export default function Home() {
   const [medias, setMedias] = useState<Media[]>([]);
-  const verifiedUser = useSelector((state: RootState) => state.verifiedUser.value);
+  const verifiedUser = useSelector((state: RootState) => state.currentUserVerified.value);
   const currentSearch = useSelector((state: RootState) => state.currentSearch.value);
-  const favorites = useSelector((state: RootState) => state.favorites.value);
+  const favorites = useSelector((state: RootState) => state.currentFavorites.value);
 
   const router = useRouter();
 

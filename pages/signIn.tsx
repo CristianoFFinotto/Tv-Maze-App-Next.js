@@ -17,7 +17,7 @@ import { Inputs } from '../tools/Types';
 
 const SignIn = () => {
   const [SignInError, setSignInError] = useState<string>('');
-  const verifiedUser = useSelector((state: RootState) => state.verifiedUser.value);
+  const verifiedUser = useSelector((state: RootState) => state.currentUserVerified.value);
   const router = useRouter();
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {

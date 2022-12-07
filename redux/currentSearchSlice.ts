@@ -1,10 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-export type CurrentSearchType = {
-  value: string;
-};
-
-const initialState: CurrentSearchType = {
+const initialState = {
   value: '',
 };
 

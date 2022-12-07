@@ -15,8 +15,8 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import { Media } from '../tools/Types';
-import PlayCircleIcon from '@mui/icons-material/PlayCircle';
-import StopIcon from '@mui/icons-material/Stop';
+/* import PlayCircleIcon from '@mui/icons-material/PlayCircle';
+import StopIcon from '@mui/icons-material/Stop'; */
 
 type PropsStype = {
   medias: Media[];
@@ -31,8 +31,8 @@ type PropsStype = {
 };
 
 const Medias = (props: PropsStype) => {
-  const favorites = useSelector((state: RootState) => state.favorites.value);
-  const watchingStatus = useSelector((state: RootState) => state.watching.value);
+  const favorites = useSelector((state: RootState) => state.currentFavorites.value);
+  /*  const watchingStatus = useSelector((state: RootState) => state.nowWatching.value); */
   return (
     <Grid container spacing={2} marginTop={'64px'} padding={'10px 40px 20px 40px'}>
       {props.medias.map((item, index) => (
@@ -74,7 +74,7 @@ const Medias = (props: PropsStype) => {
               </CardContent>
             </CardActionArea>
             <CardActions sx={{ display: 'felx', justifyContent: 'space-between' }}>
-              {watchingStatus && String(watchingStatus.showId) === String(item.id) ? (
+              {/* {watchingStatus && String(watchingStatus.showId) === String(item.id) ? (
                 <IconButton aria-label='play tv/show' onClick={() => props.handleOnClickStop()}>
                   <StopIcon />
                 </IconButton>
@@ -86,7 +86,7 @@ const Medias = (props: PropsStype) => {
                 >
                   <PlayCircleIcon />
                 </IconButton>
-              )}
+              )} */}
 
               <IconButton
                 aria-label='toggle password visibility'

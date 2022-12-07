@@ -38,7 +38,7 @@ type PropsType = {
 };
 
 const MyAppBar = (props: PropsType) => {
-  const theme = useSelector((state: RootState) => state.theme.value);
+  const theme = useSelector((state: RootState) => state.currentTheme.value);
   const [mobileOpen, setMobileOpen] = useState<boolean>(false);
   const currentSearch = useSelector((state: RootState) => state.currentSearch.value);
   const dispatch = useDispatch();

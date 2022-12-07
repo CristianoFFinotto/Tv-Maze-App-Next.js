@@ -1,17 +1,17 @@
 import { configureStore } from '@reduxjs/toolkit';
 import themeSliceReducer from './themeSlice';
-import currentUserReducer from './currentUser';
+import currentUserStatusReducer from './currentUserStatus';
 import currentSearchReducer from './currentSearchSlice';
 import favoritesReducer from './favoritesSlice';
 import nowWatchingReducer from './nowWatchingSlice';
 
 export const store = configureStore({
   reducer: {
-    theme: themeSliceReducer,
-    currentUser: currentUserReducer,
+    currentTheme: themeSliceReducer,
+    currentUserVerified: currentUserStatusReducer,
     currentSearch: currentSearchReducer,
-    favorites: favoritesReducer,
-    nowWatching: nowWatchingReducer,
+    currentFavorites: favoritesReducer,
+    currentWatching: nowWatchingReducer,
   },
 });
 

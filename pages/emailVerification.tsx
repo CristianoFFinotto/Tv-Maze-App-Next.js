@@ -9,7 +9,7 @@ import { RootState } from '../redux/store';
 import { auth } from './_app';
 
 const EmailVerification = () => {
-  const verifiedUser = useSelector((state: RootState) => state.verifiedUser.value);
+  const verifiedUser = useSelector((state: RootState) => state.currentUserVerified.value);
 
   return (
     <>

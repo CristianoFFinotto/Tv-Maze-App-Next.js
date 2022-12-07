@@ -4,12 +4,12 @@ import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { auth, database } from '../pages/_app';
-import { handleOnChangeUser } from '../redux/currentUser';
+import { handleOnChangeUserStatus } from '../redux/currentUserStatus';
 import { handleOnChangeCurrentSearch } from '../redux/currentSearchSlice';
 import { handleOnChangeFavorites } from '../redux/favoritesSlice';
 import { handleOnChangeTheme } from '../redux/themeSlice';
 import { child, get, onValue, ref } from 'firebase/database';
-import { handleWatching } from '../redux/nowWatchingSlice';
+import { handleChangeWatching } from '../redux/nowWatchingSlice';
 
 const Auth = () => {
   const router = useRouter();
@@ -19,12 +19,7 @@ const Auth = () => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         if (user?.emailVerified) {
-          dispatch(
-            handleOnChangeUser({
-              uid: user.uid,
-              verified: true,
-            }),
-          );
+          dispatch(handleOnChangeUserStatus(true));
 
           get(child(ref(database), `users/${user.uid}/favorites`))
             .then((snapshot) => {
@@ -38,32 +33,41 @@ const Auth = () => {
               console.error(error);
             });
 
-          // get(ref(database, 'watching'))
-          //   .then((snapshot) => {
-          //     if (snapshot.exists()) {
-          //       if (snapshot.val().current !== 'null') {
-          //         dispatch(
-          //           handleWatching({
-          //             userUid: snapshot.val(),
-          //             showId: snapshot.val().current.showId,
-          //           }),
-          //         );
-          //       } else {
-          //         dispatch(handleWatching(null));
-          //       }
-          //     }
-          //   })
-          //   .catch((error) => {
-          //     console.error(error);
-          //   });
+          get(ref(database, 'watching'))
+            .then((snapshot) => {
+              if (snapshot.exists()) {
+                console.log(snapshot.val());
+                /*  snapshot.val().forEach(item => {
+                  let userInfo = {
+                    userId: '',
+                    showId: ''
+                  }
+                  userInfo.showId = 
+                });
+                  dispatch(
+                    handleWatching({
+                      userUid: snapshot.val(),
+                      showId: snapshot.val().current.showId,
+                    }),
+                  ); */
+              }
+            })
+            .catch((error) => {
+              console.error(error);
+            });
 
-          onValue(ref(database), (snapshot) => {
+          onValue(child(ref(database), `users/${user.uid}/favorites`), (snapshot) => {
             if (snapshot.exists()) {
-              if (snapshot.val().users[user.uid]) {
+              if (snapshot.exists()) {
+                dispatch(handleOnChangeFavorites(Object.values(snapshot.val())));
+              } else {
+                dispatch(handleOnChangeFavorites(null));
+              }
+              /* if (snapshot.val().users[user.uid]) {
                 dispatch(
                   handleOnChangeFavorites(Object.values(snapshot.val().users[user.uid].favorites)),
                 );
-              }
+              } */
 
               // if (snapshot.val().watching?.current) {
               //   dispatch(
@@ -101,11 +105,11 @@ const Auth = () => {
           );
         }
       } else {
-        dispatch(handleOnChangeUser(null));
+        dispatch(handleOnChangeUserStatus(false));
         dispatch(handleOnChangeCurrentSearch(''));
         dispatch(handleOnChangeFavorites(null));
         dispatch(handleOnChangeTheme('light'));
-        dispatch(handleWatching(null));
+        dispatch(handleChangeWatching(null));
 
         router.replace('/signIn');
       }

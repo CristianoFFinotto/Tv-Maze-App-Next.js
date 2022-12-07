@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 type watchingType = {
   userId: string;
   showId: string;
-};
+}[];
 
 export type NowWatchingType = {
   value: watchingType | null;
@@ -15,7 +15,7 @@ export const nowWatchingSlice = createSlice({
   name: 'nowWatchingSlice',
   initialState,
   reducers: {
-    handleWatching: (
+    handleChangeWatching: (
       state: NowWatchingType,
       action: { type: string; payload: watchingType | null },
     ) => {
@@ -24,6 +24,6 @@ export const nowWatchingSlice = createSlice({
   },
 });
 
-export const { handleWatching } = nowWatchingSlice.actions;
+export const { handleChangeWatching } = nowWatchingSlice.actions;
 
 export default nowWatchingSlice.reducer;

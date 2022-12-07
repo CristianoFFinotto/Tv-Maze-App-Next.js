@@ -14,7 +14,7 @@ import { Inputs } from '../tools/Types';
 const ResetPassword = () => {
   const [resetPasswordSend, setresetPasswordSend] = useState<boolean>(false);
   const [resetPasswordError, setResetPasswordError] = useState<string>('');
-  const verifiedUser = useSelector((state: RootState) => state.verifiedUser.value);
+  const verifiedUser = useSelector((state: RootState) => state.currentUserVerified.value);
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     const actionCodeSettings = {
