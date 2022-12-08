@@ -8,7 +8,7 @@ export const currentUserVerified = createSlice({
   name: 'currentUserVerified',
   initialState,
   reducers: {
-    handleOnChangeUserStatus: (state, action: { payload: boolean }) => {
+    handleOnChangeUserStatus: (state, action: { type: string; payload: boolean }) => {
       state.value = action.payload;
     },
   },

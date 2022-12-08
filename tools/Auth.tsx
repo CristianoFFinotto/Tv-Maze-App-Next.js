@@ -36,20 +36,7 @@ const Auth = () => {
           get(ref(database, 'watching'))
             .then((snapshot) => {
               if (snapshot.exists()) {
-                console.log(snapshot.val());
-                /*  snapshot.val().forEach(item => {
-                  let userInfo = {
-                    userId: '',
-                    showId: ''
-                  }
-                  userInfo.showId = 
-                });
-                  dispatch(
-                    handleWatching({
-                      userUid: snapshot.val(),
-                      showId: snapshot.val().current.showId,
-                    }),
-                  ); */
+                dispatch(handleChangeWatching(snapshot.val()));
               }
             })
             .catch((error) => {
@@ -58,34 +45,25 @@ const Auth = () => {
 
           onValue(child(ref(database), `users/${user.uid}/favorites`), (snapshot) => {
             if (snapshot.exists()) {
-              if (snapshot.exists()) {
-                dispatch(handleOnChangeFavorites(Object.values(snapshot.val())));
-              } else {
-                dispatch(handleOnChangeFavorites(null));
-              }
-              /* if (snapshot.val().users[user.uid]) {
-                dispatch(
-                  handleOnChangeFavorites(Object.values(snapshot.val().users[user.uid].favorites)),
-                );
-              } */
+              dispatch(handleOnChangeFavorites(Object.values(snapshot.val())));
+            } else {
+              dispatch(handleOnChangeFavorites(null));
+            }
+          });
 
-              // if (snapshot.val().watching?.current) {
-              //   dispatch(
-              //     handleWatching({
-              //       userEmail: snapshot.val().watching.current.userEmail,
-              //       showId: snapshot.val().watching.current.showId,
-              //     }),
-              //   );
-              // } else {
-              //   dispatch(handleWatching(null));
-              // }
+          onValue(child(ref(database), `watching`), (snapshot) => {
+            if (snapshot.exists()) {
+              dispatch(handleChangeWatching(snapshot.val()));
+            } else {
+              dispatch(handleChangeWatching(null));
             }
           });
 
           if (
             window.location.pathname !== '/' &&
             !window.location.pathname.includes('show') &&
-            window.location.pathname !== '/favorites'
+            window.location.pathname !== '/favorites' &&
+            window.location.pathname !== '/topShow'
           ) {
             router.replace('/');
           }

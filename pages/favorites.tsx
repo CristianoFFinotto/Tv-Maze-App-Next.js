@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Typography } from '@mui/material';
 import Box from '@mui/material/Box';
-import { remove, ref } from 'firebase/database';
+import { remove, ref, set } from 'firebase/database';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import Loading from '../components/Loading';
@@ -11,7 +11,6 @@ import { RootState } from '../redux/store';
 import { auth, database } from './_app';
 import { Media } from '../tools/Types';
 import Header from '../components/Header';
-import { handleOnClickPlay, handleOnClickStop } from '../tools/Player';
 
 const Favorites = () => {
   const verifiedUser = useSelector((state: RootState) => state.currentUserVerified.value);
@@ -28,6 +27,14 @@ const Favorites = () => {
     if (favorites?.find((value) => value === id)) {
       remove(ref(database, `users/${auth.currentUser?.uid}/favorites/${id}`));
     }
+  };
+
+  const handleOnClickPlay = (nameShow: string) => {
+    set(ref(database, `watching/${auth.currentUser?.uid}`), nameShow);
+  };
+
+  const handleOnClickStop = () => {
+    remove(ref(database, `watching/${auth.currentUser?.uid}`));
   };
 
   useEffect(() => {

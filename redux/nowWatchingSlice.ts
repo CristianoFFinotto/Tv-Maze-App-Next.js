@@ -1,9 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 type watchingType = {
-  userId: string;
-  showId: string;
-}[];
+  [key: string]: string;
+};
 
 export type NowWatchingType = {
   value: watchingType | null;

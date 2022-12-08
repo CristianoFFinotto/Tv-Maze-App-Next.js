@@ -29,7 +29,7 @@ import MyButton from './MyButton';
 import Link from 'next/link';
 import { handleOnChangeCurrentSearch } from '../redux/currentSearchSlice';
 
-const navItems = ['home', 'favorites'];
+const navItems = ['home', 'favorites', 'top show'];
 const drawerWidth = 240;
 
 type PropsType = {
@@ -58,7 +58,7 @@ const MyAppBar = (props: PropsType) => {
           <ListItem key={item} disablePadding>
             <ListItemButton sx={{ textAlign: 'center' }}>
               <Link
-                href={item === 'home' ? '/' : `/${item}`}
+                href={item === 'home' ? '/' : item === 'top show' ? '/topShow' : `/${item}`}
                 style={{ textDecoration: 'none', color: 'inherit', width: '100%' }}
               >
                 <ListItemText primary={item} />
@@ -111,7 +111,7 @@ const MyAppBar = (props: PropsType) => {
             {navItems.map((item) => (
               <Button key={item} sx={{ color: '#fff' }}>
                 <Link
-                  href={item === 'home' ? '/' : `/${item}`}
+                  href={item === 'home' ? '/' : item === 'top show' ? '/topShow' : `/${item}`}
                   style={{ textDecoration: 'none', color: 'inherit', width: '100%' }}
                 >
                   {item}

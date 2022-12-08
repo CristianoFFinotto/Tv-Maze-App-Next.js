@@ -55,8 +55,8 @@ export default function Home() {
     }
   };
 
-  const handleOnClickPlay = (id: string) => {
-    set(ref(database, `watching/${auth.currentUser?.uid}`), id);
+  const handleOnClickPlay = (nameShow: string) => {
+    set(ref(database, `watching/${auth.currentUser?.uid}`), nameShow);
   };
 
   const handleOnClickStop = () => {

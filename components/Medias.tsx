@@ -15,8 +15,9 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import { Media } from '../tools/Types';
-/* import PlayCircleIcon from '@mui/icons-material/PlayCircle';
-import StopIcon from '@mui/icons-material/Stop'; */
+import PlayCircleIcon from '@mui/icons-material/PlayCircle';
+import StopIcon from '@mui/icons-material/Stop';
+import { auth } from '../pages/_app';
 
 type PropsStype = {
   medias: Media[];
@@ -32,7 +33,8 @@ type PropsStype = {
 
 const Medias = (props: PropsStype) => {
   const favorites = useSelector((state: RootState) => state.currentFavorites.value);
-  /*  const watchingStatus = useSelector((state: RootState) => state.nowWatching.value); */
+  const watchingList = useSelector((state: RootState) => state.currentWatching.value);
+
   return (
     <Grid container spacing={2} marginTop={'64px'} padding={'10px 40px 20px 40px'}>
       {props.medias.map((item, index) => (
@@ -74,19 +76,23 @@ const Medias = (props: PropsStype) => {
               </CardContent>
             </CardActionArea>
             <CardActions sx={{ display: 'felx', justifyContent: 'space-between' }}>
-              {/* {watchingStatus && String(watchingStatus.showId) === String(item.id) ? (
+              {watchingList && watchingList[auth.currentUser!.uid] === item.name ? (
                 <IconButton aria-label='play tv/show' onClick={() => props.handleOnClickStop()}>
                   <StopIcon />
                 </IconButton>
               ) : (
                 <IconButton
                   aria-label='play tv/show'
-                  onClick={() => (watchingStatus ? undefined : props.handleOnClickPlay(item.id))}
-                  disabled={watchingStatus ? true : false}
+                  onClick={() =>
+                    watchingList && watchingList[auth.currentUser!.uid]
+                      ? undefined
+                      : props.handleOnClickPlay(item.name)
+                  }
+                  disabled={watchingList && watchingList[auth.currentUser!.uid] ? true : false}
                 >
                   <PlayCircleIcon />
                 </IconButton>
-              )} */}
+              )}
 
               <IconButton
                 aria-label='toggle password visibility'
