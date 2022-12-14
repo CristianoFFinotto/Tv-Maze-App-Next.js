@@ -4,7 +4,7 @@ import Loading from '../components/Loading';
 import Header from '../components/Header';
 import MyAppBar from '../components/MyAppBar';
 import { Box, Grid, Typography } from '@mui/material';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import { useRouter } from 'next/router';
 import { ref, set, remove } from 'firebase/database';
@@ -17,6 +17,7 @@ export default function Home() {
   const verifiedUser = useSelector((state: RootState) => state.currentUserVerified.value);
   const currentSearch = useSelector((state: RootState) => state.currentSearch.value);
   const favorites = useSelector((state: RootState) => state.currentFavorites.value);
+  const dispatch = useDispatch();
 
   const router = useRouter();
 
@@ -24,6 +25,7 @@ export default function Home() {
     if (currentSearch) {
       handleOnSearch(currentSearch);
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -55,8 +57,8 @@ export default function Home() {
     }
   };
 
-  const handleOnClickPlay = (nameShow: string) => {
-    set(ref(database, `watching/${auth.currentUser?.uid}`), nameShow);
+  const handleOnClickPlay = (id: string, nameShow: string) => {
+    set(ref(database, `watching/${auth.currentUser?.uid}`), { id, nameShow });
   };
 
   const handleOnClickStop = () => {

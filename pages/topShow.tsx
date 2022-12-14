@@ -7,7 +7,7 @@ import Header from '../components/Header';
 import MyAppBar from '../components/MyAppBar';
 
 type Rows = {
-  id: number;
+  id: string;
   showName: string;
   users: number;
 }[];
@@ -40,8 +40,14 @@ const TopShow = () => {
         ]      
       */
 
+      console.log(Object.values(watchingList));
+
       Object.values(watchingList).forEach(
-        (show) => (showQtaUsers[show] = (showQtaUsers[show] || 0) + 1),
+        (show: any) =>
+          (showQtaUsers[show.id] = {
+            users: (showQtaUsers[show.id]?.users || 0) + 1,
+            showName: show.nameShow,
+          }),
       );
 
       /* 
@@ -52,15 +58,12 @@ const TopShow = () => {
       
       */
 
-      let index = 0;
-
       for (const key in showQtaUsers) {
         tempRows.push({
-          id: index,
-          showName: key,
-          users: showQtaUsers[key],
+          id: key,
+          showName: showQtaUsers[key].showName,
+          users: showQtaUsers[key].users,
         });
-        index++;
       }
 
       setRows(tempRows);

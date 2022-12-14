@@ -29,8 +29,8 @@ const Favorites = () => {
     }
   };
 
-  const handleOnClickPlay = (nameShow: string) => {
-    set(ref(database, `watching/${auth.currentUser?.uid}`), nameShow);
+  const handleOnClickPlay = (id: string, nameShow: string) => {
+    set(ref(database, `watching/${auth.currentUser?.uid}`), { id, nameShow });
   };
 
   const handleOnClickStop = () => {

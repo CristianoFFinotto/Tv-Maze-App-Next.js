@@ -27,7 +27,7 @@ type PropsStype = {
   handleOnFavouriteClick: (id: string) => void;
 
   // eslint-disable-next-line no-unused-vars
-  handleOnClickPlay: (id: string) => void;
+  handleOnClickPlay: (id: string, name: string) => void;
   handleOnClickStop: () => void;
 };
 
@@ -76,7 +76,7 @@ const Medias = (props: PropsStype) => {
               </CardContent>
             </CardActionArea>
             <CardActions sx={{ display: 'felx', justifyContent: 'space-between' }}>
-              {watchingList && watchingList[auth.currentUser!.uid] === item.name ? (
+              {watchingList && watchingList[auth.currentUser!.uid]?.id === item.id ? (
                 <IconButton aria-label='play tv/show' onClick={() => props.handleOnClickStop()}>
                   <StopIcon />
                 </IconButton>
@@ -86,7 +86,7 @@ const Medias = (props: PropsStype) => {
                   onClick={() =>
                     watchingList && watchingList[auth.currentUser!.uid]
                       ? undefined
-                      : props.handleOnClickPlay(item.name)
+                      : props.handleOnClickPlay(item.id, item.name)
                   }
                   disabled={watchingList && watchingList[auth.currentUser!.uid] ? true : false}
                 >
