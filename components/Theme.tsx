@@ -29,7 +29,7 @@ const light: ThemeOptions = createTheme({
       main: '#febc5f',
     },
     info: {
-      main: '#a0782f',
+      main: '#204bf5',
     },
     success: {
       main: '#5a991e',
@@ -70,7 +70,7 @@ const dark: ThemeOptions = createTheme({
 });
 
 const Theme = ({ children }: any) => {
-  const theme = useSelector((state: RootState) => state.theme.value);
+  const theme = useSelector((state: RootState) => state.currentTheme.value);
   return (
     <ThemeProvider theme={theme === 'light' ? light : dark}>
       <CssBaseline />

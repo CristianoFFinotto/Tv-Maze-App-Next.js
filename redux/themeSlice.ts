@@ -1,15 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-export type ThemeType = {
-  value: string;
-};
-
-const initialState: ThemeType = {
+const initialState = {
   value: 'light',
 };
 
 export const themeSlice = createSlice({
-  name: 'currentSearch',
+  name: 'themeSlice',
   initialState,
   reducers: {
     handleOnChangeTheme: (state, action: { type: string; payload: string }) => {

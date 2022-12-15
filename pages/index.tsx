@@ -11,12 +11,21 @@ import { ref, set, remove } from 'firebase/database';
 import { auth, database } from './_app';
 import Medias from '../components/Medias';
 import { Media, MediaApi } from '../tools/Types';
+import CurrentWatching from '../components/CurrentWatching';
+
+const handleOnClickPlay = (id: string, nameShow: string) => {
+  set(ref(database, `watching/${auth.currentUser?.uid}`), { id, nameShow });
+};
+
+const handleOnClickStop = () => {
+  remove(ref(database, `watching/${auth.currentUser?.uid}`));
+};
 
 export default function Home() {
   const [medias, setMedias] = useState<Media[]>([]);
-  const verifiedUser = useSelector((state: RootState) => state.verifiedUser.value);
+  const verifiedUser = useSelector((state: RootState) => state.currentUserVerified.value);
   const currentSearch = useSelector((state: RootState) => state.currentSearch.value);
-  const favorites = useSelector((state: RootState) => state.favorites.value);
+  const favorites = useSelector((state: RootState) => state.currentFavorites.value);
 
   const router = useRouter();
 
@@ -43,11 +52,11 @@ export default function Home() {
     }
   };
 
-  const handleOnCardClick = (id: number) => {
+  const handleOnCardClick = (id: string) => {
     router.push(`/show/${id}`);
   };
 
-  const handleOnFavouriteClick = (id: number) => {
+  const handleOnFavouriteClick = (id: string) => {
     if (favorites?.find((value) => value === id)) {
       remove(ref(database, `users/${auth.currentUser?.uid}/favorites/${id}`));
     } else {
@@ -55,33 +64,32 @@ export default function Home() {
     }
   };
 
-  return (
+  return verifiedUser ? (
     <>
-      {verifiedUser ? (
-        <>
-          <Header title={'Tv Maze App'} description={'Tv Maze App'} />
-          <MyAppBar handleOnSearch={handleOnSearch} />
-          {medias.length > 0 ? (
-            <Medias
-              medias={medias}
-              handleOnCardClick={handleOnCardClick}
-              handleOnFavouriteClick={handleOnFavouriteClick}
-            />
-          ) : (
-            <Box height={'100vh'} textAlign={'center'} display={'flex'} alignItems={'center'}>
-              <Grid container spacing={'2vh'}>
-                <Grid item xs={12}>
-                  <Typography variant='h5' textAlign={'center'}>
-                    Search a film or tv show
-                  </Typography>
-                </Grid>
-              </Grid>
-            </Box>
-          )}
-        </>
+      <Header title={'Tv Maze App'} description={'Tv Maze App'} />
+      <MyAppBar handleOnSearch={handleOnSearch} />
+      <CurrentWatching />
+      {medias.length > 0 ? (
+        <Medias
+          medias={medias}
+          handleOnCardClick={handleOnCardClick}
+          handleOnFavouriteClick={handleOnFavouriteClick}
+          handleOnClickPlay={handleOnClickPlay}
+          handleOnClickStop={handleOnClickStop}
+        />
       ) : (
-        <Loading />
+        <Box height={'100vh'} textAlign={'center'} display={'flex'} alignItems={'center'}>
+          <Grid container spacing={'2vh'}>
+            <Grid item xs={12}>
+              <Typography variant='h5' textAlign={'center'}>
+                Search a film or tv show
+              </Typography>
+            </Grid>
+          </Grid>
+        </Box>
       )}
     </>
+  ) : (
+    <Loading />
   );
 }

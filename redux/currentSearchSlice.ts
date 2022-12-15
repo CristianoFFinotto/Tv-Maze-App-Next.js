@@ -1,15 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-export type CurrentSearchType = {
-  value: string;
-};
-
-const initialState: CurrentSearchType = {
+const initialState = {
   value: '',
 };
 
 export const currentSearchSlice = createSlice({
-  name: 'verifiedUser',
+  name: 'currentSearchSlice',
   initialState,
   reducers: {
     handleOnChangeCurrentSearch: (state, action: { type: string; payload: string }) => {

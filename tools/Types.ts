@@ -1,11 +1,11 @@
 export type MediaApi = [
   {
     show: {
-      id: number;
+      id: string;
       name: string;
       genres?: string[];
       rating?: {
-        average?: number;
+        average?: string;
       };
       image?: {
         original?: string;
@@ -16,17 +16,17 @@ export type MediaApi = [
 ];
 
 export type Media = {
-  id: number;
+  id: string;
   name: string;
   image: string;
 };
 
 export type MediaDetailApi = {
-  id: number;
+  id: string;
   name: string;
   genres: string[];
   rating?: {
-    average?: number;
+    average?: string;
   };
   image?: {
     original?: string;
@@ -35,10 +35,10 @@ export type MediaDetailApi = {
 };
 
 export type MediaDetail = {
-  id: number;
+  id: string;
   name: string;
   genres: string[];
-  rating: number | string;
+  rating: string;
   image: string;
   summary: string;
 };

@@ -40,7 +40,7 @@ export async function getServerSideProps({ resolvedUrl }: any) {
 
 const DetailPage = (props: PropsType) => {
   const [media, setMedia] = useState<MediaDetail>();
-  const verifiedUser = useSelector((state: RootState) => state.verifiedUser.value);
+  const verifiedUser = useSelector((state: RootState) => state.currentUserVerified.value);
 
   useEffect(() => {
     if (verifiedUser) {
@@ -51,84 +51,69 @@ const DetailPage = (props: PropsType) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [verifiedUser]);
 
-  return (
+  return verifiedUser ? (
     <>
-      {verifiedUser ? (
-        <>
-          <Header title={'Tv Maze App - Detail'} description={'Tv Maze App - Detail'} />
-          <MyAppBar />
-          {media ? (
-            <Box display={{ md: 'flex' }} alignItems={{ md: 'center' }} marginTop={'10vh'}>
-              <Grid container>
-                <Grid
-                  item
-                  xs={12}
-                  md={6}
-                  marginTop={'2vh'}
-                  display={'flex'}
-                  alignItems={'center'}
-                  justifyContent={'center'}
-                >
-                  <Image
-                    src={media.image}
-                    width={350}
-                    height={350}
-                    priority={true}
-                    alt={media.name}
-                    style={{ borderRadius: '10px' }}
-                  />
-                </Grid>
+      <Header title={'Tv Maze App - Detail'} description={'Tv Maze App - Detail'} />
+      <MyAppBar />
+      {media ? (
+        <Box display={{ md: 'flex' }} alignItems={{ md: 'center' }} marginTop={'10vh'}>
+          <Grid container>
+            <Grid
+              item
+              xs={12}
+              md={6}
+              marginTop={'2vh'}
+              display={'flex'}
+              alignItems={'center'}
+              justifyContent={'center'}
+            >
+              <Image
+                src={media.image}
+                width={350}
+                height={350}
+                priority={true}
+                alt={media.name}
+                style={{ borderRadius: '10px' }}
+              />
+            </Grid>
 
-                <Grid
-                  item
-                  xs={12}
-                  md={6}
-                  display={'flex'}
-                  justifyContent={'center'}
-                  marginTop={'2vh'}
-                >
-                  <Paper elevation={10} sx={{ margin: '0 3% 3% 3%', padding: '3%' }}>
-                    <Box
-                      textAlign={'justify'}
-                      width={{ sm: '50%' }}
-                      padding={{ xs: '5%', sm: '0' }}
-                    >
-                      <Typography variant='h6' fontWeight={'bold'}>
-                        Name
-                      </Typography>
-                      {media.name}
-                      <Typography variant='h6' fontWeight={'bold'}>
-                        Genres
-                      </Typography>
+            <Grid item xs={12} md={6} display={'flex'} justifyContent={'center'} marginTop={'2vh'}>
+              <Paper elevation={10} sx={{ margin: '0 3% 3% 3%', padding: '3%' }}>
+                <Box textAlign={'justify'} width={{ sm: '50%' }} padding={{ xs: '5%', sm: '0' }}>
+                  <Typography variant='h6' fontWeight={'bold'}>
+                    Name
+                  </Typography>
+                  {media.name}
+                  <Typography variant='h6' fontWeight={'bold'}>
+                    Genres
+                  </Typography>
 
-                      <List>
-                        {media.genres.map((item, key) => (
-                          <ListItem key={key}>{item}</ListItem>
-                        ))}
-                      </List>
-                      <Typography variant='h6' fontWeight={'bold'}>
-                        Summay
-                      </Typography>
-                      {parse(media.summary)}
-                      <Typography variant='h6' fontWeight={'bold'}>
-                        Rating
-                      </Typography>
-                      {media.rating}
-                    </Box>
-                  </Paper>
-                </Grid>
-              </Grid>
-            </Box>
-          ) : (
-            <Box display={'flex'} justifyContent={'center'} alignItems={'center'} height={'100vh'}>
-              <Typography variant='h6'>Only valid id params permitted!</Typography>
-            </Box>
-          )}
-        </>
+                  <List>
+                    {media.genres.map((item, key) => (
+                      <ListItem key={key}>{item}</ListItem>
+                    ))}
+                  </List>
+                  <Typography variant='h6' fontWeight={'bold'}>
+                    Summay
+                  </Typography>
+                  {parse(media.summary)}
+                  <Typography variant='h6' fontWeight={'bold'}>
+                    Rating
+                  </Typography>
+                  {media.rating}
+                </Box>
+              </Paper>
+            </Grid>
+          </Grid>
+        </Box>
       ) : (
-        <Loading />
+        <Box display={'flex'} justifyContent={'center'} alignItems={'center'} height={'100vh'}>
+          <Typography variant='h6'>Only valid id params permitted!</Typography>
+        </Box>
       )}
     </>
+  ) : (
+    <Loading />
   );
 };
 

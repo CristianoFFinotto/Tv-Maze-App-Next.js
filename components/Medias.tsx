@@ -15,17 +15,26 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import { Media } from '../tools/Types';
+import PlayCircleIcon from '@mui/icons-material/PlayCircle';
+import StopIcon from '@mui/icons-material/Stop';
+import { auth } from '../pages/_app';
 
 type PropsStype = {
   medias: Media[];
   // eslint-disable-next-line no-unused-vars
-  handleOnCardClick: (id: number) => void;
+  handleOnCardClick: (id: string) => void;
   // eslint-disable-next-line no-unused-vars
-  handleOnFavouriteClick: (id: number) => void;
+  handleOnFavouriteClick: (id: string) => void;
+
+  // eslint-disable-next-line no-unused-vars
+  handleOnClickPlay: (id: string, name: string) => void;
+  handleOnClickStop: () => void;
 };
 
 const Medias = (props: PropsStype) => {
-  const favorites = useSelector((state: RootState) => state.favorites.value);
+  const favorites = useSelector((state: RootState) => state.currentFavorites.value);
+  const watchingList = useSelector((state: RootState) => state.currentWatching.value);
+
   return (
     <Grid container spacing={2} marginTop={'64px'} padding={'10px 40px 20px 40px'}>
       {props.medias.map((item, index) => (
@@ -66,7 +75,25 @@ const Medias = (props: PropsStype) => {
                 </Typography>
               </CardContent>
             </CardActionArea>
-            <CardActions sx={{ display: 'felx', justifyContent: 'end' }}>
+            <CardActions sx={{ display: 'felx', justifyContent: 'space-between' }}>
+              {watchingList && watchingList[auth.currentUser!.uid]?.id === item.id ? (
+                <IconButton aria-label='play tv/show' onClick={() => props.handleOnClickStop()}>
+                  <StopIcon />
+                </IconButton>
+              ) : (
+                <IconButton
+                  aria-label='play tv/show'
+                  onClick={() =>
+                    watchingList && watchingList[auth.currentUser!.uid]
+                      ? undefined
+                      : props.handleOnClickPlay(item.id, item.name)
+                  }
+                  disabled={watchingList && watchingList[auth.currentUser!.uid] ? true : false}
+                >
+                  <PlayCircleIcon />
+                </IconButton>
+              )}
+
               <IconButton
                 aria-label='toggle password visibility'
                 onClick={() => props.handleOnFavouriteClick(item.id)}
