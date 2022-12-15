@@ -39,9 +39,6 @@ const TopShow = () => {
           show name
         ]      
       */
-
-      console.log(Object.values(watchingList));
-
       Object.values(watchingList).forEach(
         (show: any) =>
           (showQtaUsers[show.id] = {

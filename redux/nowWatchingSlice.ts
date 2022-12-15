@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 type watchingType = {
-  [key: string]: { id: string; showName: string; users: string };
+  [key: string]: { id: string; nameShow: string; users: string };
 };
 
 export type NowWatchingType = {

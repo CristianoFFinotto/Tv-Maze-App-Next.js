@@ -11,6 +11,15 @@ import { ref, set, remove } from 'firebase/database';
 import { auth, database } from './_app';
 import Medias from '../components/Medias';
 import { Media, MediaApi } from '../tools/Types';
+import CurrentWatching from '../components/CurrentWatching';
+
+const handleOnClickPlay = (id: string, nameShow: string) => {
+  set(ref(database, `watching/${auth.currentUser?.uid}`), { id, nameShow });
+};
+
+const handleOnClickStop = () => {
+  remove(ref(database, `watching/${auth.currentUser?.uid}`));
+};
 
 export default function Home() {
   const [medias, setMedias] = useState<Media[]>([]);
@@ -56,18 +65,11 @@ export default function Home() {
     }
   };
 
-  const handleOnClickPlay = (id: string, nameShow: string) => {
-    set(ref(database, `watching/${auth.currentUser?.uid}`), { id, nameShow });
-  };
-
-  const handleOnClickStop = () => {
-    remove(ref(database, `watching/${auth.currentUser?.uid}`));
-  };
-
   return verifiedUser ? (
     <>
       <Header title={'Tv Maze App'} description={'Tv Maze App'} />
       <MyAppBar handleOnSearch={handleOnSearch} />
+      <CurrentWatching />
       {medias.length > 0 ? (
         <Medias
           medias={medias}

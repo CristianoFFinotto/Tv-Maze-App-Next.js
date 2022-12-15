@@ -1,4 +1,3 @@
-import React from 'react';
 import { onAuthStateChanged, sendEmailVerification } from 'firebase/auth';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
@@ -94,7 +93,7 @@ const Auth = () => {
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  return <></>;
+  return null;
 };
 
 export default Auth;

@@ -82,7 +82,7 @@ const Form = (props: propsType) => {
             required: true,
           })}
         />
-      ) : undefined}
+      ) : null}
 
       <MyButton variant='contained' margin='20px 0' type={'submit'}>
         Submit
@@ -93,7 +93,7 @@ const Form = (props: propsType) => {
           <AlertTitle>Error</AlertTitle>
           <strong>{props.errors}</strong>
         </Alert>
-      ) : undefined}
+      ) : null}
     </Box>
   );
 };

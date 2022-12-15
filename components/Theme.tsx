@@ -29,7 +29,7 @@ const light: ThemeOptions = createTheme({
       main: '#febc5f',
     },
     info: {
-      main: '#a0782f',
+      main: '#204bf5',
     },
     success: {
       main: '#5a991e',
