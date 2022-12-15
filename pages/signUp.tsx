@@ -22,27 +22,23 @@ const SignUp = () => {
     );
   };
 
-  return (
+  return !verifiedUser ? (
     <>
-      {!verifiedUser ? (
-        <>
-          <Header title={'Tv Maze App - Sign up'} description={'Tv Maze App - Sign up'} />
+      <Header title={'Tv Maze App - Sign up'} description={'Tv Maze App - Sign up'} />
 
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <Typography variant='h3' gutterBottom textAlign={'center'} marginTop={'3vh'}>
-                Sign up
-              </Typography>
-            </Grid>
-            <Grid item xs={12} marginTop={'24vh'} display={'flex'} justifyContent={'center'}>
-              <Form onSubmit={onSubmit} hasPasswordInput={true} errors={signUpError} />
-            </Grid>
-          </Grid>
-        </>
-      ) : (
-        <Loading />
-      )}
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <Typography variant='h3' gutterBottom textAlign={'center'} marginTop={'3vh'}>
+            Sign up
+          </Typography>
+        </Grid>
+        <Grid item xs={12} marginTop={'24vh'} display={'flex'} justifyContent={'center'}>
+          <Form onSubmit={onSubmit} hasPasswordInput={true} errors={signUpError} />
+        </Grid>
+      </Grid>
     </>
+  ) : (
+    <Loading />
   );
 };
 

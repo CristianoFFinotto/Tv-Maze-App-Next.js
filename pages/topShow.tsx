@@ -81,7 +81,7 @@ const TopShow = () => {
         alignItems={'center'}
         height={'100vh'}
       >
-        <Grid item xs={12} sm={8} md={6} lg={4}>
+        <Grid item xs={11} sm={8} md={6} lg={4}>
           <Paper sx={{ height: 400, width: '100%' }} elevation={5}>
             <DataGrid rows={rows} columns={columns} pageSize={5} rowsPerPageOptions={[5]} />
           </Paper>

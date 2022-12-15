@@ -66,30 +66,26 @@ const Favorites = () => {
     }
   }, [favorites]);
 
-  return (
+  return verifiedUser ? (
     <>
-      {verifiedUser ? (
-        <>
-          <Header title={'Tv Maze App - Favorites'} description={'Tv Maze App - Favorites'} />
-          <MyAppBar />
-          {medias && favorites ? (
-            <Medias
-              medias={medias}
-              handleOnCardClick={handleOnCardClick}
-              handleOnFavouriteClick={handleOnFavouriteClick}
-              handleOnClickPlay={handleOnClickPlay}
-              handleOnClickStop={handleOnClickStop}
-            />
-          ) : (
-            <Box display={'flex'} justifyContent={'center'} alignItems={'center'} height={'100vh'}>
-              <Typography variant='h6'>Not favorites found!</Typography>
-            </Box>
-          )}
-        </>
+      <Header title={'Tv Maze App - Favorites'} description={'Tv Maze App - Favorites'} />
+      <MyAppBar />
+      {medias && favorites ? (
+        <Medias
+          medias={medias}
+          handleOnCardClick={handleOnCardClick}
+          handleOnFavouriteClick={handleOnFavouriteClick}
+          handleOnClickPlay={handleOnClickPlay}
+          handleOnClickStop={handleOnClickStop}
+        />
       ) : (
-        <Loading />
+        <Box display={'flex'} justifyContent={'center'} alignItems={'center'} height={'100vh'}>
+          <Typography variant='h6'>Not favorites found!</Typography>
+        </Box>
       )}
     </>
+  ) : (
+    <Loading />
   );
 };
 

@@ -4,7 +4,7 @@ import Loading from '../components/Loading';
 import Header from '../components/Header';
 import MyAppBar from '../components/MyAppBar';
 import { Box, Grid, Typography } from '@mui/material';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import { useRouter } from 'next/router';
 import { ref, set, remove } from 'firebase/database';
@@ -17,7 +17,6 @@ export default function Home() {
   const verifiedUser = useSelector((state: RootState) => state.currentUserVerified.value);
   const currentSearch = useSelector((state: RootState) => state.currentSearch.value);
   const favorites = useSelector((state: RootState) => state.currentFavorites.value);
-  const dispatch = useDispatch();
 
   const router = useRouter();
 
@@ -65,35 +64,31 @@ export default function Home() {
     remove(ref(database, `watching/${auth.currentUser?.uid}`));
   };
 
-  return (
+  return verifiedUser ? (
     <>
-      {verifiedUser ? (
-        <>
-          <Header title={'Tv Maze App'} description={'Tv Maze App'} />
-          <MyAppBar handleOnSearch={handleOnSearch} />
-          {medias.length > 0 ? (
-            <Medias
-              medias={medias}
-              handleOnCardClick={handleOnCardClick}
-              handleOnFavouriteClick={handleOnFavouriteClick}
-              handleOnClickPlay={handleOnClickPlay}
-              handleOnClickStop={handleOnClickStop}
-            />
-          ) : (
-            <Box height={'100vh'} textAlign={'center'} display={'flex'} alignItems={'center'}>
-              <Grid container spacing={'2vh'}>
-                <Grid item xs={12}>
-                  <Typography variant='h5' textAlign={'center'}>
-                    Search a film or tv show
-                  </Typography>
-                </Grid>
-              </Grid>
-            </Box>
-          )}
-        </>
+      <Header title={'Tv Maze App'} description={'Tv Maze App'} />
+      <MyAppBar handleOnSearch={handleOnSearch} />
+      {medias.length > 0 ? (
+        <Medias
+          medias={medias}
+          handleOnCardClick={handleOnCardClick}
+          handleOnFavouriteClick={handleOnFavouriteClick}
+          handleOnClickPlay={handleOnClickPlay}
+          handleOnClickStop={handleOnClickStop}
+        />
       ) : (
-        <Loading />
+        <Box height={'100vh'} textAlign={'center'} display={'flex'} alignItems={'center'}>
+          <Grid container spacing={'2vh'}>
+            <Grid item xs={12}>
+              <Typography variant='h5' textAlign={'center'}>
+                Search a film or tv show
+              </Typography>
+            </Grid>
+          </Grid>
+        </Box>
       )}
     </>
+  ) : (
+    <Loading />
   );
 }
