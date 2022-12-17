@@ -18,8 +18,10 @@ const ResetPassword = () => {
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     const actionCodeSettings = {
-      url: 'http://localhost:3000/signIn',
-      handleCodeInApp: false,
+      url:
+        process.env.NODE_ENV === 'development'
+          ? process.env.NEXT_PUBLIC_HOST_DEV!
+          : process.env.NEXT_PUBLIC_HOST_PROD!,
     };
 
     sendPasswordResetEmail(auth, data.email, actionCodeSettings)
